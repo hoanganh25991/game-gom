@@ -1,0 +1,252 @@
+{
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "instructions": "Instructions",
+    "tabs": {
+      "general": "General",
+      "environment": "Environment",
+      "controls": "Controls",
+      "info": "Info"
+    },
+    "general": {
+      "fullscreen": "Fullscreen",
+      "fullscreenShort": "On"
+    },
+    "env": {
+      "rain": "Rain",
+      "density": "Density",
+      "rainDensity": "Rain Density"
+    },
+    "render": {
+      "zoom": "Zoom",
+      "quality": "Quality",
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "reloadPrompt": "Changing graphics quality requires a reload. Reload now?",
+      "reloadTitle": "Reload required",
+      "reloadDesc": "Changing graphics quality requires a reload."
+    }
+  },
+  "instructions": {
+    "title": "Instructions",
+    "items": [
+      "Mouse + Keyboard",
+      "- Right-click: move",
+      "- Left-click: attack enemies",
+      "- A: hold to automatically basic-attack the nearest enemy",
+      "- Q/W/E/R: abilities",
+      "- S: cancel command",
+      "- B: teleport",
+      "- M: place flag",
+      "",
+      "Touch",
+      "- Joystick: move",
+      "- Skill button: attack",
+      "- Utility button: teleport, place flag"
+    ]
+  },
+  "hero": {
+    "title": "God of Earth",
+    "skills": "Skills",
+    "tabs": {
+      "info": "Info",
+      "skills": "Skills",
+      "skillbook": "Skillbook",
+      "maps": "Maps",
+      "marks": "Marks"
+    },
+    "info": {
+      "level": "Level",
+      "hp": "HP",
+      "mp": "MP",
+      "title": "Hero",
+      "attack": "Attack",
+      "attackSpeed": "Attack Speed",
+      "defense": "Defense",
+      "active": "Active",
+      "inactive": "Inactive",
+      "map": "Map",
+      "buffs": "Buffs",
+      "debuffs": "Debuffs",
+      "uplifts": "Uplifts",
+      "move": "Move",
+      "baseDmg": "Base DMG",
+      "depth": "Depth"
+    },
+    "assign": "Assign",
+    "pool": "Skill Pool",
+    "slot": {
+      "empty": "Empty",
+      "clear": "Clear",
+      "reset": "Reset"
+    }
+  },
+  "btn": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "start": "Start",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "intro": {
+    "tagline": "The earth god awakens."
+  },
+  "flash": {
+    "title": "Loading Earth God — Always Peak",
+    "desc": "Preparing earthen experience…",
+    "note": "Loading modules…",
+    "motto": "Earth God — Always Peak"
+  },
+  "start": {
+    "title": "Journey of the Earth God",
+    "story": "The world has slipped into shadow. Waking phantoms roam the land; only one god can call the earth to answer. Lead GoE — the earth god — through moss-grown forests, terraced shrines and quarry towns, shaping stone and soil to restore balance."
+  },
+  "guide": {
+    "button": "👋 Guide",
+    "nav": {
+      "previous": "Previous",
+      "next": "Next",
+      "done": "Done",
+      "close": "Close guide"
+    },
+    "settings": {
+      "title": "Settings",
+      "desc": "Open and adjust game options, environment, and audio."
+    },
+    "hero": {
+      "title": "Hero Screen",
+      "desc": "View hero info and configure skills and loadout."
+    },
+    "camera": {
+      "title": "Camera Toggle",
+      "desc": "Tap to toggle first-person camera."
+    },
+    "portal": {
+      "title": "Portal",
+      "desc": "Tap to open a teleport portal."
+    },
+    "mark": {
+      "title": "Mark Location",
+      "desc": "Tap to drop a flag to mark this place on the map."
+    },
+    "skills": {
+      "title": "Skills",
+      "desc": "Tap Basic or Q/W/E/R to use skills. Cooldown shows in the ring."
+    },
+    "hud": {
+      "title": "HUD",
+      "desc": "HP/MP/XP bars show your status. Level is at the right."
+    },
+    "joystick": {
+      "title": "Joystick",
+      "desc": "Drag to move your hero. On desktop, right-click to move."
+    }
+  },
+  "death": {
+    "msg": "You died. Respawning..."
+  },
+  "uplift": {
+    "unlocked": "Uplift Unlocked",
+    "choose": "Choose an enhancement for your Basic Attack:",
+    "btn": {
+      "aoe": "AOE",
+      "chain": "Chain",
+      "impact": "Impact FX"
+    },
+    "decideLater": "Decide later",
+    "applied": "Uplift applied!",
+    "none": "No uplifts chosen yet",
+    "basic": "Basic Uplift",
+    "lv": "Lv"
+  },
+  "assign": {
+    "assign": "Assign",
+    "toKey": "to key:",
+    "toSlot": "to slot:",
+    "tip": "Tip: press Q, W, E or R to choose quickly",
+    "casted": "Casted!"
+  },
+  "skills": {
+    "names": {
+      "root_chain": "Root Chain",
+      "seismic_blast": "Seismic Blast",
+      "petrifying_aura": "Petrifying Aura",
+      "earthen_spire": "Earthen Spire",
+      "boulder_bolt": "Boulder Bolt",
+      "seismic_wave": "Seismic Wave",
+      "stone_aegis": "Stone Aegis",
+      "quagmire_field": "Quagmire Field",
+      "terraburst": "Terraburst",
+      "boulder_toss": "Boulder Toss",
+      "stone_spear": "Stone Spear",
+      "tremor_pulse": "Tremor Pulse",
+      "quarry_wrath": "Quarry Wrath",
+      "earthen_dome": "Earthen Dome",
+      "rockfall_storm": "Rockfall Storm",
+      "stone_ring": "Stone Ring",
+      "pebble_burst": "Pebble Burst",
+      "seismic_cataclysm": "Seismic Cataclysm"
+    },
+    "shorts": {
+      "root_chain": "Chain",
+      "seismic_blast": "Blast",
+      "petrifying_aura": "Petrify",
+      "earthen_spire": "Spire",
+      "boulder_bolt": "Bolt+",
+      "seismic_wave": "Nova",
+      "stone_aegis": "Aegis",
+      "quagmire_field": "Quagmire",
+      "terraburst": "Over",
+      "boulder_toss": "Ball",
+      "stone_spear": "Spear",
+      "tremor_pulse": "Pulse",
+      "quarry_wrath": "Wrath",
+      "earthen_dome": "Dome",
+      "rockfall_storm": "Rockfall",
+      "stone_ring": "Ring",
+      "pebble_burst": "Burst",
+      "seismic_cataclysm": "Cataclysm"
+    },
+    "types": {
+      "chain": "Chains between nearby enemies, hitting multiple targets.",
+      "aoe": "Ground-targeted area. Damages enemies within its radius.",
+      "aura": "Toggle aura around hero. Ticks earth damage periodically while draining mana.",
+      "storm": "Multiple random earth strikes (boulders/spires) in a radius over time.",
+      "beam": "Launch a stone projectile at the nearest enemy in range.",
+      "nova": "Radial tremor burst around hero.",
+      "heal": "Restores hero HP instantly.",
+      "mana": "Restores hero MP instantly.",
+      "buff": "Temporarily increases damage and sturdiness.",
+      "dash": "Quickly dash forward.",
+      "blink": "Teleport toward direction/point.",
+      "clone": "Summons a stone image that periodically pelts nearby foes with debris.",
+      "shield": "Reduces incoming damage for a short time; may grant brief invulnerability on cast."
+    },
+    "stats": {
+      "type": "Type",
+      "cooldown": "Cooldown",
+      "mana": "Mana",
+      "radius": "Radius",
+      "range": "Range",
+      "jumps": "Jumps",
+      "jumpRange": "Jump Range",
+      "tick": "Tick",
+      "duration": "Duration",
+      "slow": "Slow",
+      "slowDuration": "Slow Duration",
+      "damage": "Damage",
+      "base": "base"
+    }
+  },
+  "maps": {
+    "endless": "Endless",
+    "current": "Current",
+    "locked": "Locked",
+    "requires": "Requires",
+    "loadMore": "Load more",
+    "depthDesc": "Depth +${depth}. Each step strengthens foes: more HP, damage, speed and density.",
+    "elites": "Elites:"
+  }
+}

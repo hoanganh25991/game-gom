@@ -1,0 +1,778 @@
+/* css/panels.css
+   Panels, screens, system-screen rules, icon buttons and basic controls
+*/
+
+.icon-btn {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  background: var(--glass);
+  border: 1px solid var(--border-brown);
+  color: var(--text-earth);
+  border-radius: 64px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
+  z-index: 20;
+  cursor: pointer;
+  user-select: none;
+}
+
+.icon-btn.small {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+
+/* Screen close button positioned top-right of screen overlays */
+.screen .screen-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3000;
+  pointer-events: auto;
+  background: var(--system-bg);
+  color: var(--system-text);
+  border: 1px solid var(--system-border);
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+}
+
+.icon-btn.top-right {
+  right: 12px;
+  top: 224px;
+}
+
+.icon-btn.right-center {
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Portal button placement: bottom-right, above skills layout */
+#btnPortal {
+  position: fixed;
+  right: 12px;
+  bottom: 220px;
+  /* sits above the skill wheel cluster */
+  z-index: 45;
+  /* above mobile controls (z-index 40) */
+}
+
+/* Mark/Flag button placement: bottom-right, above Portal */
+#btnMark {
+  position: fixed;
+  right: calc(40px + 12px + 12px);
+  bottom: 220px;
+  /* sits above the portal button */
+  z-index: 45;
+}
+
+/* Responsive tweak for narrower screens */
+@media (max-width: 720px) {
+  #btnPortal {
+    right: 8px;
+    bottom: 200px;
+  }
+
+  #btnMark {
+    right: 8px;
+    bottom: 248px;
+  }
+}
+
+/* Panels (Settings) */
+.panel {
+  position: absolute;
+  right: 64px;
+  top: 12px;
+  min-width: min(380px, 80vw);
+  max-width: 90vw;
+  padding: 12px;
+  background: var(--glass-strong);
+  border: 1px solid var(--border-brown);
+  border-radius: 12px;
+  color: var(--text-earth);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+  z-index: 25;
+}
+
+.panel.hidden {
+  display: none;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.panel-content .row {
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-brown-subtle);
+  overflow: visible;
+  /* allow native dropdowns to escape row */
+  position: relative;
+  /* create anchor context for popup */
+  z-index: 5;
+  /* above inner decorations */
+}
+
+.panel-content .row:last-child {
+  border-bottom: none;
+}
+
+.row-label {
+  color: #ffd4b3;
+  font-weight: 600;
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.lang-switch {
+  display: flex;
+  gap: 8px;
+}
+
+.flag {
+  width: 40px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 140, 66, 0.35);
+  background: rgba(10, 25, 48, 0.6);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* Primary / secondary buttons (generic) */
+.primary,
+.secondary {
+  pointer-events: auto;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  border: 1px solid rgba(255, 140, 66, 0.35);
+  background: linear-gradient(180deg, rgba(22, 44, 78, 0.8), rgba(10, 25, 48, 0.7));
+  color: #ffe6d9;
+}
+
+.secondary {
+  opacity: 0.9;
+}
+
+/* Fullscreen screens */
+.screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(1200px 1200px at 70% 30%, rgba(13, 33, 64, 0.92) 0%, rgba(9, 21, 40, 0.92) 50%, rgba(5, 10, 18, 0.92) 100%);
+  z-index: 50;
+  pointer-events: auto;
+}
+
+.screen.hidden {
+  display: none;
+}
+
+.screen .screen-content {
+  width: min(900px, 92vw);
+  padding: 20px;
+  background: var(--glass-strong);
+  border: 1px solid rgba(255, 140, 66, 0.35);
+  border-radius: 14px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+/* System screens (settings / hero / other overlays) use a contrasting light theme
+   so they read as "system" UI separate from the battlefield. */
+.system-screen .screen-content {
+  background: var(--system-bg);
+  border: 1px solid var(--system-border);
+  color: var(--system-text);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* Ensure headings and controls inside system screens pick up the system palette */
+.system-screen h1,
+.system-screen h2,
+.system-screen h3,
+.system-screen .row-label,
+.system-screen .panel-header {
+  color: var(--system-text);
+}
+
+/* Compact header/heading sizing (applies to Settings and Hero screens) */
+.system-screen .panel-header {
+  margin-bottom: 8px;
+}
+
+.system-screen .panel-header h2 {
+  font-size: 18px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.system-screen h2 {
+  font-size: 18px;
+  line-height: 1.2;
+  margin: 0 0 6px;
+}
+
+.system-screen h3 {
+  font-size: 14px;
+  line-height: 1.2;
+  margin: 6px 0;
+}
+
+/* Buttons / flags in system screens: use game dark theme glass with fire accent */
+.system-screen .primary,
+.system-screen .secondary,
+.system-screen .flag {
+  border-color: var(--border-orange);
+  background: linear-gradient(180deg, rgba(40, 20, 10, 0.9), rgba(30, 15, 8, 0.85));
+  color: var(--text-warm);
+  box-shadow: var(--shadow-medium), inset 0 0 0 1px var(--border-orange-subtle);
+}
+
+/* Accent highlights for interactive elements (use yellow for primary) */
+.system-screen .primary,
+.system-screen .flag {
+  outline-color: var(--theme-yellow);
+  box-shadow: var(--shadow-medium), 0 0 12px rgba(255, 217, 74, 0.2);
+}
+
+/* Unified hover/active states */
+.primary:hover,
+.secondary:hover,
+.system-screen .primary:hover,
+.system-screen .secondary:hover,
+.system-screen .flag:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+.primary:active,
+.secondary:active,
+.system-screen .primary:active,
+.system-screen .secondary:active,
+.system-screen .flag:active {
+  transform: translateY(0);
+  filter: brightness(0.98);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Default themed button baseline inside screens for unclassed buttons */
+.screen .screen-content button:not(.icon-btn):not(.skill-btn):not(.flag):not(.tab-btn):not(.pill-btn) {
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 140, 66, 0.35);
+  background: linear-gradient(180deg, rgba(22, 44, 78, 0.9), rgba(10, 25, 48, 0.85));
+  color: #ffe6d9;
+  font-weight: 800;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(255, 140, 66, 0.15);
+  transition: transform 120ms cubic-bezier(.2, .9, .2, 1), filter 120ms ease, box-shadow 120ms ease;
+}
+
+/* Disabled state */
+.screen .screen-content button:disabled,
+.primary:disabled,
+.secondary:disabled {
+  opacity: 0.6;
+  cursor: default;
+  filter: grayscale(0.2);
+  box-shadow: none;
+}
+
+/* Tabbed UI (shared for system screens) */
+.tab-bar {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(40, 20, 10, 0.98), rgba(26, 13, 8, 0.96));
+  border-bottom: 1px solid rgba(255, 140, 66, 0.2);
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.tab-btn {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 140, 66, 0.35);
+  background: linear-gradient(180deg, rgba(40, 20, 10, 0.9), rgba(26, 13, 8, 0.85));
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  color: #ffd4b3;
+  /* Equal width per row */
+  flex: 1 1 0;
+  min-width: 0;
+  /* Truncate long titles */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 36px;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  transition: background 120ms ease, transform 80ms ease, box-shadow 120ms ease;
+}
+
+.tab-btn.active {
+  background: linear-gradient(180deg, var(--theme-light-brown), var(--theme-brown));
+  border-color: rgba(182,138,102,0.6);
+  box-shadow: 0 6px 16px rgba(106,143,78,0.22), 0 0 12px rgba(182,138,102,0.18);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.tab-panel {
+  display: none;
+  text-align: left;
+  /* Ensure active tab body can consume remaining space when needed */
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.system-screen .tab-panel.active {
+  display: block;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+
+/* System screens: ensure content fits mobile viewports */
+.system-screen .screen-content {
+  width: min(900px, 96vw);
+  height: min(96vh, 100dvh - 24px);
+  max-height: min(96vh, 100dvh - 24px);
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  /* allow native dropdowns to display outside container */
+  padding: 16px;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Make the main content area inside system screens scroll */
+.system-screen .panel-content {
+  flex: 1;
+  min-height: 0;
+  /* Column layout: header (outside), then tab bar, then body */
+  display: flex;
+  flex-direction: column;
+  /* Let only the active tab panel scroll */
+  overflow: hidden;
+}
+
+/* Tab hover/focus polish */
+.tab-btn:hover {
+  background: linear-gradient(180deg, var(--theme-sand), var(--theme-light-brown));
+  box-shadow: 0 6px 16px rgba(106,143,78,0.18);
+  color: #fff;
+}
+
+.tab-btn:focus {
+  outline: 2px solid rgba(255, 140, 66, 0.8);
+  outline-offset: 2px;
+}
+
+/* ScreenGroup buttons row below minimap */
+#screenGroup {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  pointer-events: auto;
+}
+
+#screenGroup .icon-btn {
+  position: static;
+  /* participate in flex layout */
+}
+
+/* Bottom-right flex stack: coreSkillGroup above skillWheel */
+#bottomRightGroup {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  z-index: 45;
+  /* above mobile controls (z=40) */
+  pointer-events: none;
+}
+
+#bottomRightGroup>* {
+  pointer-events: auto;
+}
+
+/* Make core skill icons flow in a row with gap */
+#coreSkillGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Override individual absolute/fixed placements while inside the group */
+#bottomRightGroup #btnPortal,
+#bottomRightGroup #btnMark,
+#bottomRightGroup #btnCamera {
+  position: static;
+  inset: auto;
+  right: auto;
+  left: auto;
+  top: auto;
+  bottom: auto;
+}
+
+/* System screen form controls: checkboxes and ranges themed to game style */
+.system-screen input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 140, 66, 0.35);
+  background: linear-gradient(180deg, rgba(22, 44, 78, 0.9), rgba(10, 25, 48, 0.85));
+  box-shadow: inset 0 0 0 1px rgba(255, 140, 66, 0.15), 0 2px 8px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+
+.system-screen input[type="checkbox"]:checked {
+  background: linear-gradient(180deg, #ffe98a, #ffd94a);
+  border-color: rgba(255, 217, 74, 0.6);
+  box-shadow: 0 0 12px rgba(255, 217, 74, 0.25), inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.system-screen input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 6px;
+  height: 10px;
+  border: solid var(--theme-orange);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.system-screen input[type="checkbox"]:focus-visible {
+  outline: 2px solid rgba(255, 217, 74, 0.8);
+  outline-offset: 2px;
+}
+
+/* Range slider */
+.system-screen input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 240px;
+  height: 24px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.system-screen input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  background: linear-gradient(90deg, rgba(22, 44, 78, 0.9), rgba(10, 25, 48, 0.85));
+  border: 1px solid rgba(255, 140, 66, 0.35);
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgba(255, 140, 66, 0.12);
+}
+
+.system-screen input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffe98a, #ffd94a);
+  border: 1px solid rgba(255, 217, 74, 0.6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 8px rgba(255, 217, 74, 0.35);
+  margin-top: -7px;
+  /* center thumb on 6px track */
+}
+
+.system-screen input[type="range"]::-moz-range-track {
+  height: 6px;
+  background: linear-gradient(90deg, rgba(22, 44, 78, 0.9), rgba(10, 25, 48, 0.85));
+  border: 1px solid rgba(255, 140, 66, 0.35);
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgba(255, 140, 66, 0.12);
+}
+
+.system-screen input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffe98a, #ffd94a);
+  border: 1px solid rgba(255, 217, 74, 0.6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 8px rgba(255, 217, 74, 0.35);
+}
+
+.system-screen input[type="range"]:focus-visible {
+  outline: 2px solid rgba(255, 217, 74, 0.8);
+  outline-offset: 4px;
+}
+
+/* Modal overlay (Quality reload, generic) */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(0,0,0,0.35);
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+}
+.modal-overlay:not(.hidden) {
+  display: grid;
+}
+.modal-box {
+  min-width: 280px;
+  max-width: 90vw;
+  background: var(--system-bg);
+  border: 1px solid var(--system-border);
+  border-radius: 10px;
+  padding: 14px;
+  color: var(--system-text);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.3);
+}
+.modal-desc {
+  font-size: 13px;
+  opacity: 0.85;
+  margin-top: 6px;
+}
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+/* Slider inline value badge (used next to range inputs) */
+.slider-value {
+  margin-left: 6px;
+  font-size: 12px;
+  opacity: 0.9;
+  min-width: 36px;
+  text-align: right;
+  user-select: none;
+}
+
+/* Segmented control (theme-matched) */
+.system-screen .segmented {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 140, 66, 0.35);
+  background: linear-gradient(180deg, rgba(22, 44, 78, 0.9), rgba(10, 25, 48, 0.85));
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 140, 66, 0.12);
+  overflow: hidden;
+}
+
+.system-screen .segmented .seg-btn {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: #ffe6d9;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 80ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+.system-screen .segmented .seg-btn+.seg-btn {
+  border-left: 1px solid rgba(255, 140, 66, 0.25);
+}
+
+.system-screen .segmented .seg-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.system-screen .segmented .seg-btn:active {
+  transform: translateY(0);
+  filter: brightness(0.98);
+}
+
+.system-screen .segmented .seg-btn.active {
+  background: linear-gradient(180deg, #ffe98a, #ffd94a);
+  color: var(--theme-orange);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.system-screen .segmented .seg-btn:focus-visible {
+  outline: 2px solid rgba(255, 217, 74, 0.8);
+  outline-offset: -2px;
+  /* keep ring inside pill */
+}
+
+/* Native select styling inside system screens */
+.system-screen select {
+  appearance: auto;
+  -webkit-appearance: menulist;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--system-border);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--system-text);
+  font-weight: 800;
+  line-height: 1.1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  pointer-events: auto;
+  position: relative;
+  /* ensure dropdown anchors correctly */
+  z-index: 3;
+  /* above internal decorations */
+}
+
+.system-screen select:focus-visible {
+  outline: 2px solid rgba(255, 217, 74, 0.8);
+  outline-offset: 2px;
+}
+
+/* Compact pill-style buttons for in-screen controls (Settings/Hero) */
+.pill-btn {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  min-height: 28px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 140, 66, 0.35);
+  background: linear-gradient(180deg, rgba(22, 44, 78, 0.9), rgba(10, 25, 48, 0.85));
+  color: #ffe6d9;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 140, 66, 0.12);
+  transition: transform 80ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+.pill-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.pill-btn:active {
+  transform: translateY(0);
+  filter: brightness(0.98);
+}
+
+.pill-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  filter: grayscale(0.2);
+  box-shadow: none;
+}
+
+/* Yellow accent variant for primary/affirmative actions */
+.pill-btn--yellow {
+  background: linear-gradient(180deg, var(--theme-sand), var(--theme-light-brown));
+  color: var(--theme-accent);
+  border-color: rgba(182,138,102,0.6);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 24px rgba(106,143,78,0.18), 0 0 12px rgba(182,138,102,0.12);
+}
+
+.pill-btn--yellow:hover {
+  filter: brightness(1.02);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(255, 217, 74, 0.35);
+}
+
+.pill-btn--yellow:active {
+  transform: translateY(0);
+}
+
+/* Mobile-first compact tweaks */
+@media (max-width: 720px) {
+
+  /* Smaller close button and tighter placement */
+  .screen .screen-close {
+    width: 30px;
+    height: 30px;
+    top: 8px;
+    right: 8px;
+  }
+
+  /* Tighter container padding with safe-area bottom */
+  .system-screen .screen-content {
+    padding: 12px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Tighter rows */
+  .panel-content .row {
+    padding: 6px 0;
+  }
+
+  /* More compact tabs */
+  .tab-bar {
+    gap: 4px;
+    padding: 6px;
+    border-radius: 8px;
+  }
+
+  .tab-btn {
+    padding: 6px 8px;
+    font-size: 12px;
+    border-radius: 8px;
+    height: 32px;
+    /* keep equal width + ellipsis on mobile too */
+    min-width: 0;
+  }
+
+  /* Smaller headings */
+  .system-screen .panel-header {
+    margin-bottom: 6px;
+  }
+
+  .system-screen .panel-header h2,
+  .system-screen h2 {
+    font-size: 16px;
+  }
+
+  .system-screen h3 {
+    font-size: 13px;
+  }
+}

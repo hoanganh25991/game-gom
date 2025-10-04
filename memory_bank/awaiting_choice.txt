@@ -1,0 +1,8 @@
+Waiting for your choice to continue the "God of Earth" retheme.
+
+Please reply with one of these single-letter options in the chat:
+A) Apply doc + locale + comment replacements now (safe, excludes images/vendor/build files).
+B) Produce the full curated per-file list of all 117 matches for review.
+C) Apply everything including storage key renames + migration and manifest/images updates (HIGH RISK — requires confirmation).
+
+If you want a different action, reply with the exact instruction.
