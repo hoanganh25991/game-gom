@@ -1,6 +1,6 @@
 import * as THREE from "../vendor/three/build/three.module.js";
 
-export const LOCAL_STORAGE_PREFIX = "goe";
+export const LOCAL_STORAGE_PREFIX = "gom";
 
 export const storageKey = (suffix, separator = ".") => {
   const suffixStr = String(suffix ?? "");
@@ -34,22 +34,22 @@ export const STORAGE_KEYS = {
 };
 
 export const COLOR = {
-  // Earth palette (values kept under original keys for compatibility)
-  earth: 0x6b5a49,        // Primary earthen brown (used previously as COLOR.fire)
-  darkEarth: 0x3c3f46,    // Basalt/dark stone
-  midEarth: 0xcaa36b,     // Sandstone / mid earth
-  white: 0xfff5e6,       // Warm white (unchanged)
-  hp: 0xc94b2a,          // Earth-tinged red for HP
-  mp: 0x7ec1c7,          // Crystal teal for energy/mana
-  xp: 0xcaa36b,          // Sandstone for XP
-  enemy: 0x2d2a26,       // Dark earth for enemies
-  enemyDark: 0x23221f,   // Very dark ground
-  portal: 0x7ec1c7,      // Geode/crystal teal for portals
-  village: 0x6a8f4e,     // Mossy green for villages
-  lava: 0x4a3f35,        // Rocky brown (repurposed)
-  ember: 0xcaa36b,       // Pebble/sparkle sandstone
-  ash: 0x696969,         // Neutral gray retained
-  volcano: 0x4a3f35,     // Quarry brown / stone
+  // Metal palette (values kept under original keys for compatibility)
+  earth: 0x6f7b84,        // Iron gray primary
+  darkEarth: 0x1b1f27,    // Deep steel/dark alloy
+  midEarth: 0xB4B4C8,     // Brushed steel accent
+  white: 0xffffff,        // Clean white
+  hp: 0xc94b2a,           // HP (unchanged)
+  mp: 0x88aaff,           // Electromagnetic blue
+  xp: 0xE6B478,           // Forged bronze
+  enemy: 0x2b3036,        // Dark metal
+  enemyDark: 0x1e2228,    // Very dark alloy
+  portal: 0x88aaff,       // Magnetic portal hue
+  village: 0xB87333,      // Bronze accent for villages
+  lava: 0xE6B478,         // Forge glow
+  ember: 0xFFDCA0,        // Hot spark
+  ash: 0x696969,          // Neutral gray
+  volcano: 0x3a3f46,      // Gunmetal
 };
 
 export const WORLD = {
@@ -108,11 +108,11 @@ export const STATS_BASE = {
 };
 
 export const SKILLS = {
-  // Earth-themed skills for mass-clear / control gameplay.
-  Q: { name: "Root Chain", cd: 4, mana: 20, range: 60, jumps: 8, jumpRange: 30, dmg: 120 },
-  W: { name: "Seismic Blast (AOE)", cd: 6, mana: 40, radius: 18, dmg: 220 },
-  E: { name: "Petrifying Aura", cd: 12, mana: 0, radius: 18, tick: 0.6, dmg: 18, duration: 12, manaPerTick: 3 },
-  R: { name: "Earthen Spire", cd: 18, mana: 70, radius: 36, strikes: 40, dmg: 90, duration: 8 },
+  // God of Metal default loadout mapping
+  Q: { id: "iron_pulse", name: "Iron Pulse", type: "nova", cd: 6, mana: 32, radius: 16, dmg: 34 },
+  W: { id: "magnet_field", name: "Magnet Field", type: "aura", cd: 14, mana: 0, radius: 14, tick: 0.6, dmg: 7, duration: 10, manaPerTick: 3 },
+  E: { id: "steel_dash", name: "Steel Dash", type: "blink", cd: 7, mana: 18, distance: 16, trailRadius: 3, trailDmg: 8 },
+  R: { id: "ironbound_form", name: "Ironbound Form", type: "buff", cd: 22, mana: 40, buffDuration: 10, buffMult: 1.2, speedMult: 1.1, atkSpeedMult: 1.1, defensePct: 0.35 }
 };
  
 // Progression and balancing knobs (tweak for desired pacing)
