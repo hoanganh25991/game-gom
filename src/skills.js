@@ -2,7 +2,7 @@ import * as THREE from "../vendor/three/build/three.module.js";
 import { WORLD, SKILLS, COLOR, VILLAGE_POS, REST_RADIUS, SCALING, FX } from "./constants.js";
 import { distance2D, now } from "./utils.js";
 import { handWorldPos } from "./entities.js";
-import { createGroundRing } from "./effects.js";
+import { createGroundRing, MetalEffects } from "./effects.js";
 import { audio } from "./audio.js";
 import { getBasicUplift } from "./uplift.js";
 
@@ -559,6 +559,15 @@ export class SkillsSystem {
         this.effects.spawnCage(point, Math.max(4, (SK.radius || 0) * 0.9), fx.ring, 0.6, 14, 2.6);
       }
     } catch (_) {}
+    // God of Metal: map AOE skills to metal effects
+    try {
+      if (SK.id === "iron_pulse") {
+        MetalEffects.emitIronPulse(point, 1, { fx: this.effects, enemies: this.enemies });
+      }
+      if (SK.id === "forge_core") {
+        MetalEffects.summonForgeCore(point, 1.2, { fx: this.effects, enemies: this.enemies });
+      }
+    } catch (_) {}
     audio.sfx("boom");
 
     // Damage enemies in radius and apply slow if present
@@ -626,6 +635,12 @@ export class SkillsSystem {
     this.player.staticField.active = true;
     this.player.staticField.until = now() + (SK.duration || 10);
     this.player.staticField.nextTick = 0;
+    // God of Metal: magnetic field visual immediately on activation
+    try {
+      if (SK.id === "magnet_field") {
+        MetalEffects.generateMagnetField(this.player.pos(), SK.radius || 12, Math.min(1.2, SK.tick || 0.6), 1, { fx: this.effects, enemies: this.enemies });
+      }
+    } catch (_) {}
     // Persistent faint aura ring following the caster
     try {
       const fx = this._fx(SK);
@@ -691,6 +706,13 @@ export class SkillsSystem {
           : __vA.copy(this.player.pos()).add(__vB.set(0, 1.6, 0)).clone();
     const to = __vC.copy(target.pos()).add(__vB.set(0, 1.2, 0)).clone();
     
+    // God of Metal: magnetic lance beam
+    try {
+      if (SK.id === "magnetic_lance") {
+        MetalEffects.launchMagneticLance(from, to, { fx: this.effects, enemies: this.enemies });
+      }
+    } catch (_) {}
+    
     // Spawn fireball projectile for beam skill
     this.effects.spawnFireball(from, to, {
       color: this._fx(SK).beam,
@@ -735,6 +757,15 @@ export class SkillsSystem {
       if (SK.id === "got_judgement") {
         // Secondary heavier pulse for ultimate
         this.effects.spawnRingPulse(this.player.pos(), Math.max(6, (SK.radius || 0) * 0.6), fx.impact, 0.6, 1.4, 0.6);
+      }
+    } catch (_) {}
+    // God of Metal: resonance and iron pulse novas
+    try {
+      if (SK.id === "echo_slam") {
+        MetalEffects.emitEchoResonance(this.player.pos(), 1, { fx: this.effects, enemies: this.enemies });
+      }
+      if (SK.id === "iron_pulse") {
+        MetalEffects.emitIronPulse(this.player.pos(), 1, { fx: this.effects, enemies: this.enemies });
       }
     } catch (_) {}
     audio.sfx("boom");
@@ -875,6 +906,11 @@ export class SkillsSystem {
       this.effects.spawnStrike(this.player.pos(), 6, this._fx(SK).impact);
       try { this.effects.spawnShieldBubble(this.player, this._fx(SK).ring, dur, 1.8); } catch (_) {}
       try { this.effects.spawnRingPulse(this.player.pos(), 3, this._fx(SK).ring, 0.5, 0.9, 0.5); } catch (_) {}
+      try {
+        if (SK.id === "ironbound_form") {
+          MetalEffects.invokeIronboundForm(this.player, dur, { fx: this.effects, enemies: this.enemies });
+        }
+      } catch (_) {}
       audio.sfx("cast_nova");
     } catch (e) {}
   }
@@ -897,6 +933,11 @@ export class SkillsSystem {
       this.effects.spawnStrike(this.player.pos(), 5, this._fx(SK).impact);
       try { this.effects.spawnShieldBubble(this.player, this._fx(SK).ring, dur, 1.8); } catch (_) {}
       try { this.effects.spawnRingPulse(this.player.pos(), 3, this._fx(SK).ring, 0.5, 0.9, 0.5); } catch (_) {}
+      try {
+        if (SK.id === "titan_skin") {
+          MetalEffects.forgeTitanSkin(this.player, dur, { fx: this.effects, enemies: this.enemies });
+        }
+      } catch (_) {}
       audio.sfx("aura_on");
     } catch (e) {}
   }
@@ -966,6 +1007,12 @@ export class SkillsSystem {
       this.effects.spawnRingPulse(this.player.pos(), 2.5, fx.ring, 0.4, 0.7, 0.4);
       audio.sfx("storm_start");
     } catch (e) {}
+    // God of Metal: steel dash spark trail
+    try {
+      if (SK.id === "steel_dash") {
+        MetalEffects.generateSparkTrail(fromPos, to, { fx: this.effects, enemies: this.enemies });
+      }
+    } catch (_) {}
     this.player.mesh.position.set(to.x, this.player.mesh.position.y, to.z);
     try {
       this.effects.spawnStrike(this.player.pos(), 3, fx.impact);
@@ -1100,6 +1147,11 @@ export class SkillsSystem {
       // Visual ring and fire burst
       const fx = this._fx(SKILLS.E);
       this.effects.spawnStrike(this.player.pos(), SKILLS.E.radius, fx.ring);
+      try {
+        if (SKILLS.E && SKILLS.E.id === "magnet_field") {
+          MetalEffects.generateMagnetField(this.player.pos(), SKILLS.E.radius || 12, SKILLS.E.tick || 0.6, 1, { fx: this.effects, enemies: this.enemies });
+        }
+      } catch (_) {}
       audio.sfx("aura_tick");
       // Pulse ring for aura tick
       const pulse = createGroundRing(SKILLS.E.radius - 0.25, SKILLS.E.radius + 0.25, fx.ring, 0.32);
