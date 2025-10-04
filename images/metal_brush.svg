@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Subtle brushed metal tile pattern to satisfy references to images/metal_brush.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <!-- Base vertical gradient for a metallic feel -->
+    <linearGradient id="metalBase" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c7ccd1"/>
+      <stop offset="100%" stop-color="#9aa2a9"/>
+    </linearGradient>
+
+    <!-- Repeating fine horizontal strokes to simulate brushing -->
+    <pattern id="brushPattern" width="6" height="6" patternUnits="userSpaceOnUse">
+      <rect width="6" height="6" fill="url(#metalBase)"/>
+      <!-- Light stroke -->
+      <line x1="0" y1="1" x2="6" y2="1" stroke="#ffffff" stroke-opacity="0.14" stroke-width="0.6"/>
+      <!-- Dark stroke -->
+      <line x1="0" y1="4" x2="6" y2="4" stroke="#000000" stroke-opacity="0.12" stroke-width="0.6"/>
+    </pattern>
+
+    <!-- Very subtle vignette to add depth -->
+    <radialGradient id="vignette" cx="50%" cy="40%" r="85%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.15"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fill with brushed pattern -->
+  <rect width="128" height="128" fill="url(#brushPattern)"/>
+  <!-- Subtle top sheen -->
+  <rect width="128" height="128" fill="#ffffff" opacity="0.02"/>
+  <!-- Vignette overlay -->
+  <rect width="128" height="128" fill="url(#vignette)" opacity="0.22"/>
+</svg>
