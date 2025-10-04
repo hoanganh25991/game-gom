@@ -333,14 +333,14 @@ export function createHouse() {
   const house = new THREE.Group();
   const base = new THREE.Mesh(
     new THREE.BoxGeometry(6, 3, 6),
-    new THREE.MeshStandardMaterial({ color: 0x6b5a49 })
+    new THREE.MeshStandardMaterial({ color: 0x6f7b84, metalness: 0.6, roughness: 0.35 })
   );
   base.position.y = 1.5;
   house.add(base);
 
   const roof = new THREE.Mesh(
     new THREE.ConeGeometry(4.5, 2.5, 4),
-    new THREE.MeshStandardMaterial({ color: 0x4a3f35 })
+    new THREE.MeshStandardMaterial({ color: 0xB87333, metalness: 0.6, roughness: 0.4 })
   );
   roof.position.y = 4.1;
   roof.rotation.y = Math.PI / 4;
@@ -387,13 +387,13 @@ export function createGreekColumn(options = {}) {
     height = 5,
     radius = 0.28,
     order = "doric", // "doric" | "ionic" | "corinthian" (visual differences are subtle here)
-    color = 0xcaa36b, // Sandstone for earth theme
-    roughness = 0.55,
-    metalness = 0.04,
+    color = 0x6f7b84, // Iron gray for metal theme
+    roughness = 0.35,
+    metalness = 0.5,
   } = options;
 
   const g = new THREE.Group();
-  const mat = new THREE.MeshStandardMaterial({ color });
+  const mat = new THREE.MeshStandardMaterial({ color, metalness, roughness });
 
   // Stylobate/plinth
   const plinthH = Math.max(0.14, height * 0.03);
@@ -451,11 +451,11 @@ export function createGreekTemple(options = {}) {
     colSpacingZ = 2.6,
     columnHeight = 5.6,
     baseMargin = 0.9,
-    color = 0xcaa36b, // Sandstone for earth theme
+    color = 0x6f7b84, // Iron gray for metal theme
   } = options;
 
   const g = new THREE.Group();
-  const mat = new THREE.MeshStandardMaterial({ color });
+  const mat = new THREE.MeshStandardMaterial({ color, metalness: 0.5, roughness: 0.35 });
 
   const width = (cols - 1) * colSpacingX;
   const depth = (rows - 1) * colSpacingZ;
@@ -524,15 +524,15 @@ export function createVilla(options = {}) {
     width = 12,
     depth = 8,
     height = 4,
-    colorBase = 0x6b5a49,
-    colorRoof = 0x4a3f35,
+    colorBase = 0x6f7b84,
+    colorRoof = 0xB87333,
   } = options;
 
   const g = new THREE.Group();
 
   const base = new THREE.Mesh(
     new THREE.BoxGeometry(width, height, depth),
-    new THREE.MeshStandardMaterial({ color: colorBase })
+    new THREE.MeshStandardMaterial({ color: colorBase, metalness: 0.55, roughness: 0.4 })
   );
   base.position.y = height / 2;
   g.add(base);
@@ -540,7 +540,7 @@ export function createVilla(options = {}) {
   // Pyramid-like roof
   const roof = new THREE.Mesh(
     new THREE.ConeGeometry(Math.max(width, depth) * 0.6, height * 0.9, 4),
-    new THREE.MeshStandardMaterial({ color: colorRoof })
+    new THREE.MeshStandardMaterial({ color: colorRoof, metalness: 0.6, roughness: 0.4 })
   );
   roof.position.y = height + (height * 0.45);
   roof.rotation.y = Math.PI / 4;
@@ -550,7 +550,7 @@ export function createVilla(options = {}) {
   const porchDepth = Math.min(3.2, depth * 0.45);
   const porch = new THREE.Mesh(
     new THREE.BoxGeometry(width * 0.6, 0.3, porchDepth),
-    new THREE.MeshStandardMaterial({ color: colorBase, roughness: 0.8 })
+    new THREE.MeshStandardMaterial({ color: colorBase, metalness: 0.5, roughness: 0.5 })
   );
   porch.position.set(0, 0.2, depth / 2 + porchDepth * 0.5 - 0.15);
   g.add(porch);
@@ -616,10 +616,10 @@ export function createOliveTree() {
 
 export function createGreekStatue(options = {}) {
   const {
-    color = 0xcaa36b // Sandstone for earth theme
+    color = 0xB4B4C8 // Brushed steel for metal theme
   } = options;
 
-  const mat = new THREE.MeshStandardMaterial({ color });
+  const mat = new THREE.MeshStandardMaterial({ color, metalness: 0.4, roughness: 0.4 });
   const g = new THREE.Group();
 
   const plinth = new THREE.Mesh(
@@ -656,11 +656,11 @@ export function createObelisk(options = {}) {
   const {
     height = 6,
     baseSize = 1.2,
-    color = 0xf4e8dc // Warm sandstone for earth theme
+    color = 0xB4B4C8 // Brushed steel for metal theme
   } = options;
 
   const g = new THREE.Group();
-  const mat = new THREE.MeshStandardMaterial({ color });
+  const mat = new THREE.MeshStandardMaterial({ color, metalness: 0.5, roughness: 0.35 });
 
   const base = new THREE.Mesh(
     new THREE.BoxGeometry(baseSize, 0.35, baseSize),

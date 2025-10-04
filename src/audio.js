@@ -252,6 +252,30 @@ export const audio = (() => {
         return playNoiseBurst({ dur: 0.3, type: "lowpass", cutoff: 360, q: 0.9, gain: 0.32 });
       case "storm_start":
         return playNoiseBurst({ dur: 0.9, type: "lowpass", cutoff: 180, q: 0.6, gain: 0.45 });
+
+      // God of Metal cues
+      case "metal_clang": {
+        // Bright metallic hit + short resonance tail
+        playZap({ freqStart: 1200, freqEnd: 700, dur: 0.06, gain: 0.5 });
+        return playNoiseBurst({ dur: 0.08, type: "bandpass", cutoff: 1500, q: 4.0, gain: 0.25 });
+      }
+      case "magnetic_hum": {
+        // Soft electromagnetic hum
+        return playNoiseBurst({ dur: 0.4, type: "bandpass", cutoff: 420, q: 6.0, gain: 0.18 });
+      }
+      case "resonance_boom": {
+        // Echo slam: low boom + brief high ping
+        playNoiseBurst({ dur: 0.38, type: "lowpass", cutoff: 240, q: 0.9, gain: 0.8 });
+        return playZap({ freqStart: 900, freqEnd: 400, dur: 0.08, gain: 0.25 });
+      }
+      case "forge_rumble": {
+        // Warm forge glow rumble
+        return playNoiseBurst({ dur: 0.6, type: "lowpass", cutoff: 200, q: 0.5, gain: 0.5 });
+      }
+      case "spark": {
+        // Short spark crack
+        return playZap({ freqStart: 1800, freqEnd: 800, dur: 0.04, gain: 0.35 });
+      }
       default:
         // no-op
         return;

@@ -81,15 +81,15 @@ export function initEnvironment(scene, options = {}) {
   scene.add(root);
   const rng = createSeededRNG(cfg.seed);
 
-  // atmospheric fog tuned for earth/stone theme
-  scene.fog = scene.fog || new THREE.FogExp2(0x23221f, 0.0009);
+  // atmospheric fog tuned for metal/industrial theme
+  scene.fog = scene.fog || new THREE.FogExp2(0x1e2228, 0.0009);
 
-  // Ambient & directional light to match earth/stone theme (complements existing lights)
-  const ambient = new THREE.AmbientLight(0x2d2a26, 0.72);
+  // Ambient & directional light to match metal/industrial theme (complements existing lights)
+  const ambient = new THREE.AmbientLight(0x1b1f27, 0.72);
   root.add(ambient);
 
-  // directional light tuned for a natural earthy sun (soft)
-  const sun = new THREE.DirectionalLight(0xcaa36b, 0.36);
+  // directional key light with warm forge glow (soft)
+  const sun = new THREE.DirectionalLight(0xE6B478, 0.36);
   sun.position.set(60, 80, -40);
   sun.castShadow = false;
   root.add(sun);
@@ -424,9 +424,9 @@ export function initEnvironment(scene, options = {}) {
   if (cfg.enableWater) {
     const geo = new THREE.CircleGeometry(cfg.waterRadius, 64);
     const mat = new THREE.MeshStandardMaterial({
-      color: 0x7ec1c7,
-      metalness: 0.12,
-      roughness: 0.45,
+      color: 0x88aaff, // magnetic blue
+      metalness: 0.2,
+      roughness: 0.35,
       transparent: true,
       opacity: 0.9,
     });
@@ -460,7 +460,7 @@ export function initEnvironment(scene, options = {}) {
     }
     const geom = new THREE.BufferGeometry();
     geom.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    const mat = new THREE.PointsMaterial({ color: 0x7ec1c7, size: 0.08, transparent: true, opacity: 0.8 });
+    const mat = new THREE.PointsMaterial({ color: 0x88aaff, size: 0.08, transparent: true, opacity: 0.8 });
     const pts = new THREE.Points(geom, mat);
     pts.name = "rain";
     root.add(pts);

@@ -4,13 +4,13 @@
 */
 
 :root{
-  /* Primary theme palette (EARTH THEME - moss/stone) */
-  --theme-dark: #2d2a26;         /* deep basalt */
-  --theme-brown: #6b5a49;        /* primary earth brown */
-  --theme-light-brown: #b08e63;  /* lighter sandstone */
+  /* Primary theme palette (GOD OF METAL — iron/steel/bronze/chrome) */
+  --theme-dark: #1b1f27;         /* deep steel */
+  --theme-brown: #6f7b84;        /* iron gray primary */
+  --theme-light-brown: #b4b4c8;  /* brushed steel */
   --theme-white: #ffffff;        /* clean white */
-  --theme-accent: #6a8f4e;       /* moss green accent */
-  --theme-sand: #caa36b;         /* sandstone accent */
+  --theme-accent: #b87333;       /* forged bronze accent */
+  --theme-sand: #e6b478;         /* forge glow bronze */
 
   /* Backwards-compatible aliases */
   --white: #fffaf5;
@@ -20,18 +20,18 @@
 
   /* Gameplay / UI tokens */
   --hp: #c94b2a;   /* earthy red/orange for HP */
-  --mp: #7ec1c7;   /* crystal teal for energy */
-  --xp: #caa36b;   /* sandstone for XP */
-  --bg: #23221f;
+  --mp: #88aaff;   /* electromagnetic blue for energy */
+  --xp: #e6b478;   /* forged bronze for XP */
+  --bg: #1e2228;
 
   /* Glass / overlay tokens */
-  --glass: rgba(45, 42, 38, 0.72);
-  --glass-strong: rgba(45, 42, 38, 0.88);
+  --glass: rgba(27, 31, 39, 0.72);
+  --glass-strong: rgba(27, 31, 39, 0.88);
   --accent: var(--theme-accent);
 
   /* System (settings / hero / flash) theme tokens */
-  --system-bg: linear-gradient(180deg, rgba(44,38,34,0.95), rgba(38,34,30,0.95));
-  --system-border: rgba(106,143,78,0.18);
+  --system-bg: linear-gradient(180deg, rgba(27,31,39,0.95), rgba(24,28,36,0.95));
+  --system-border: rgba(184,115,51,0.22);
   --system-text: #fffaf5;
   --system-accent: var(--theme-accent);
 
@@ -43,9 +43,9 @@
   --border-white-faint: rgba(255, 255, 255, 0.03);
   
   /* Background gradients */
-  --bg-radial-earth: radial-gradient(1200px 1200px at 70% 30%, #3c3f46 0%, #2d2a26 50%, #23221f 100%);
-  --bg-dark-earth: rgba(44, 38, 34, 0.6);
-  --bg-darker-earth: rgba(38, 34, 30, 0.8);
+  --bg-radial-earth: radial-gradient(1200px 1200px at 70% 30%, #3a3f46 0%, #1b1f27 50%, #1e2228 100%);
+  --bg-dark-earth: rgba(27, 31, 39, 0.6);
+  --bg-darker-earth: rgba(24, 28, 36, 0.8);
   
   /* Text colors */
   --text-earth: #fffaf5;
@@ -56,8 +56,8 @@
   --shadow-strong: 0 8px 30px rgba(0, 0, 0, 0.45);
   
   /* Glow effects */
-  --glow-moss: rgba(106,143,78,0.6);
-  --glow-moss-strong: rgba(106,143,78,0.85);
+  --glow-moss: rgba(136,170,255,0.6);         /* magnetic blue glow */
+  --glow-moss-strong: rgba(136,170,255,0.85); /* stronger magnetic glow */
 }
 
 *{ box-sizing: border-box; }

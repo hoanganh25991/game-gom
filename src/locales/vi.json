@@ -48,7 +48,7 @@
     ]
   },
   "hero": {
-    "title": "Thần Đất",
+    "title": "Thần Kim Loại",
     "skills": "Kỹ năng",
     "tabs": {
       "info": "Thông tin",
@@ -91,17 +91,17 @@
     "no": "Không"
   },
   "intro": {
-    "tagline": "Thần đất thức tỉnh."
+    "tagline": "Lò rèn thức giấc."
   },
   "flash": {
-    "title": "Đang tải Thần Đất — Mãi Đỉnh",
-    "desc": "Chuẩn bị trải nghiệm đất…",
+    "title": "Đang tải Thần Kim Loại — Tôi Luyện",
+    "desc": "Mồi lò rèn…",
     "note": "Đang tải mô-đun…",
-    "motto": "Thần Đất — Mãi Đỉnh"
+    "motto": "Thần Kim Loại — Tôi Luyện"
   },
   "start": {
-    "title": "Hành trình của Thần Đất",
-    "story": "Thế giới chìm trong u ám. Những bóng đêm thức tỉnh; chỉ một vị thần có thể triệu hồi mạch đất. Hãy dẫn GoE — vị thần đất — qua rừng rêu, đền bậc và làng mỏ, uốn nắn đá và đất để khôi phục cân bằng."
+    "title": "Hành trình của Thần Kim Loại",
+    "story": "Thế giới mất nhịp cộng hưởng. Máy hoang và vỏ rỗng lang thang; chỉ một vị thần có thể rèn lại trật tự. Dẫn GoM — Thần Kim Loại — băng qua tàn tích sắt, tháp lò rèn và trường từ, uốn hợp kim và tia lửa để lập lại cân bằng."
   },
   "guide": {
     "button": "👋 Hướng dẫn",

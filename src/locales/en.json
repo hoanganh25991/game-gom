@@ -48,7 +48,7 @@
     ]
   },
   "hero": {
-    "title": "God of Earth",
+    "title": "God of Metal",
     "skills": "Skills",
     "tabs": {
       "info": "Info",
@@ -91,17 +91,17 @@
     "no": "No"
   },
   "intro": {
-    "tagline": "The earth god awakens."
+    "tagline": "The forge awakens."
   },
   "flash": {
-    "title": "Loading Earth God — Always Peak",
-    "desc": "Preparing earthen experience…",
+    "title": "Loading God of Metal — Always Forged",
+    "desc": "Igniting the forge…",
     "note": "Loading modules…",
-    "motto": "Earth God — Always Peak"
+    "motto": "God of Metal — Always Forged"
   },
   "start": {
-    "title": "Journey of the Earth God",
-    "story": "The world has slipped into shadow. Waking phantoms roam the land; only one god can call the earth to answer. Lead GoE — the earth god — through moss-grown forests, terraced shrines and quarry towns, shaping stone and soil to restore balance."
+    "title": "March of the God of Metal",
+    "story": "The world hums with a failing resonance. Feral machines and husks wander; only one god can reforge the realm. Lead GoM — the God of Metal — through iron ruins, foundry towers, and magnetic fields, bending alloy and spark to restore order."
   },
   "guide": {
     "button": "👋 Guide",

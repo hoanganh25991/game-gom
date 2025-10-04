@@ -18,8 +18,8 @@ export function initPortals(scene) {
 
   // Persistent Marks/Flags (user-placed permanent teleport portals)
   const MARK_COLOR = 0x66ffd1;
-  const LS_KEY_MARKS = "gof.persistentMarks";
-  const LS_KEY_MARK_READY = "gof.markNextReadyAt";
+  const LS_KEY_MARKS = STORAGE_KEYS.persistentMarks;
+  const LS_KEY_MARK_READY = STORAGE_KEYS.markNextReadyAt;
   const MARK_COOLDOWN_MS = 3 * 60 * 1000; // 3 minutes
   let persistentMarks = []; // [{ portal, x, z, createdAt }]
 

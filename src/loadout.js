@@ -14,7 +14,7 @@
 
 import { STORAGE_KEYS } from "./constants.js";
 
-const STORAGE_KEY = STORAGE_KEYS.fireLoadout;
+const STORAGE_KEY = STORAGE_KEYS.earthLoadout;
 
 /**
  * Save a loadout (array of skill id strings) to localStorage.
