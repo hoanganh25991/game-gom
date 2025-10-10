@@ -49,7 +49,7 @@ High-priority replacements (suggested)
 
 8) src/splash.js (start screen copy)
    - Match: Vietnamese copy referencing "Hoả Thần" and GoF text
-   - Suggest: Replace with earth-themed story copy and change title "Hành trình của Hoả Thần" -> "Hành trình của Thần Đất" and "GoF" -> "GoE" in data-i18n if locale entries updated.
+   - Suggest: Replace with earth-themed story copy and change title "Hành trình của Hoả Thần" -> "Hành trình của Thần Kim Loại" and "GoF" -> "GoE" in data-i18n if locale entries updated.
    - Risk: Low; Action: Update both inline text and i18n keys/values in src/locales.
 
 9) src/uplift.js

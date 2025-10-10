@@ -44,7 +44,7 @@ Note: SEARCH blocks are exact substrings to match; REPLACE blocks are the new te
 2) UI strings & splash
 - index.html
   SEARCH: Đang tải Hoả Thần Mãi Đỉnh
-  REPLACE: Đang tải Thần Đất
+  REPLACE: Đang tải Thần Kim Loại
 
   SEARCH: Chuẩn bị trải nghiệm hoả sét…
   REPLACE: Chuẩn bị trải nghiệm sức mạnh đất…

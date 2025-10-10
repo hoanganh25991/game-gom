@@ -123,7 +123,7 @@ Medium-priority (docs, metadata, images, build)
 
 15) memory_bank/publish.md and other narrative docs in Vietnamese
     - Snippet: lots of Vietnamese narrative referencing "Hoả Thần", "vị hoả thần", etc.
-    - Suggested replacement: rewrite to earth-centered narrative "Thần Đất", "vị thần đất", etc.
+    - Suggested replacement: rewrite to earth-centered narrative "Thần Kim Loại", "vị thần đất", etc.
     - Risk: low
     - Action: automated replacements for text files OK; if you want to keep creative copy, review before applying.
 
