@@ -447,7 +447,7 @@ export function getNearestEnemy(origin, maxDist, enemies) {
 }
 
 /**
- * World position of GoE's right hand (earth hand); fallback to chest height.
+ * World position of GoM's right hand (earth hand); fallback to chest height.
  * @param {Player} player
  * @returns {THREE.Vector3}
  */
@@ -461,7 +461,7 @@ export function handWorldPos(player) {
 }
 
 /**
- * World position of GoE's left hand (earth hand).
+ * World position of GoM's left hand (earth hand).
  * @param {Player} player
  * @returns {THREE.Vector3}
  */

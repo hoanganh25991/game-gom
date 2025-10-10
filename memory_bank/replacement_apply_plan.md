@@ -17,7 +17,7 @@ Note: SEARCH blocks are exact substrings to match; REPLACE blocks are the new te
 1) docs & metadata
 - index.html
   SEARCH: <title>GoF RPG</title>
-  REPLACE: <title>GoE RPG</title>
+  REPLACE: <title>GoM RPG</title>
 
   SEARCH: <meta name="theme-color" content="#ff6b35" />
   REPLACE: <meta name="theme-color" content="#6b5a49" />
@@ -31,14 +31,14 @@ Note: SEARCH blocks are exact substrings to match; REPLACE blocks are the new te
 - manifest.json (already updated) — no action
 - README.md
   SEARCH: "Player (GoF) moves with RTS‑style orders and auto‑attacks when in range."
-  REPLACE: "Player (GoE) moves with RTS‑style orders and auto‑attacks when in range."
+  REPLACE: "Player (GoM) moves with RTS‑style orders and auto‑attacks when in range."
 
   SEARCH: The skills list referencing Chain Lightning/Lightning/Thunderstorm
   REPLACE: Earth skill names (Root Chain, Seismic AOE, Petrifying Aura, Earthen Spire)
 
 - memory_bank/* and other docs
   SEARCH: "GoF RPG"
-  REPLACE: "GoE RPG"
+  REPLACE: "GoM RPG"
   (applies to memory_bank/README.md, memory_bank/projectbrief.md, memory_bank/docs/*, etc.)
 
 2) UI strings & splash
@@ -58,7 +58,7 @@ Note: SEARCH blocks are exact substrings to match; REPLACE blocks are the new te
 3) In-code comments and docstrings (safe)
 - src/i18n.js
   SEARCH: i18n utility (logic only) for GoF RPG.
-  REPLACE: i18n utility (logic only) for GoE RPG.
+  REPLACE: i18n utility (logic only) for GoM RPG.
 
 - src/skill_upgrades.js
   SEARCH: Skill upgrade system for God of Fire
@@ -67,7 +67,7 @@ Note: SEARCH blocks are exact substrings to match; REPLACE blocks are the new te
 - src/entities.js, src/meshes.js, src/skills.js, src/effects.js, src/main.js
   - Replace occurrences in comments/docstrings:
     SEARCH: "GoF" (in comments / docstrings)
-    REPLACE: "GoE"
+    REPLACE: "GoM"
     SEARCH: "fire" (only in comments/docstrings/contextual)
     REPLACE: "earth/stone/moss" (contextual; pattern-based)
   - Note: I will not change calls to spawnFireball/spawnFireStream/etc. or COLOR.* keys. These functions and keys will remain, as their values are remapped in src/constants.js.
@@ -85,17 +85,17 @@ Note: SEARCH blocks are exact substrings to match; REPLACE blocks are the new te
 
 5) Assets (read-only plan)
 - images/gof-*.png
-  Plan: produce an assets list (filename + referenced locations). If you want to rename files to goe-*, we will proceed per-file (I will not rename binaries automatically).
+  Plan: produce an assets list (filename + referenced locations). If you want to rename files to gom-*, we will proceed per-file (I will not rename binaries automatically).
 
 6) Storage keys (migration plan — not applied by default)
 - Current keys: gof.renderPrefs, gof.uiPrefs, gof.audioPrefs, gof.lang, gof.envPrefs, gof.dynamic.villages.v1, etc.
 - Migration helper (optional): add a small, idempotent migration that:
-  - On first run, copies localStorage["gof.*"] -> localStorage["goe.*"] for a whitelist of keys.
-  - Sets localStorage["goe.migration.v1"] = "1" to avoid re-running.
+  - On first run, copies localStorage["gof.*"] -> localStorage["gom.*"] for a whitelist of keys.
+  - Sets localStorage["gom.migration.v1"] = "1" to avoid re-running.
 - I will only implement this if you explicitly select the migration option.
 
 7) Android-build & TWA
-- I will update source JSONs under android-build/app/src/main/res/raw/... (where they are source files), replacing "GoF" name and #ff6b35 theme colors with GoE/#6b5a49.
+- I will update source JSONs under android-build/app/src/main/res/raw/... (where they are source files), replacing "GoF" name and #ff6b35 theme colors with GoM/#6b5a49.
 - I will NOT touch generated build artifacts in android-build/build/... unless you ask to.
 
 Scope notes & safeguards

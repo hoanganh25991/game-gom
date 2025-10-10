@@ -1,7 +1,7 @@
 # Project Brief
 
 ## Project Identity
-**Name**: GoE RPG — God of Earth
+**Name**: GoM RPG — God of Earth
 **Former Name**: GoT — Thunder God (renamed during fire theme refactor)  
 **Type**: Browser-based top-down action RPG  
 **Platform**: Progressive Web App (PWA) — Desktop & Mobile  

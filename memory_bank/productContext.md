@@ -1,7 +1,7 @@
 # Product Context
 
 ## Purpose
-This document explains **why** GoE RPG exists, **what problems** it solves, and **how** it should work from a product perspective. It provides context for product decisions and helps anyone (AI agents, developers, stakeholders) understand the problem space and user needs.
+This document explains **why** GoM RPG exists, **what problems** it solves, and **how** it should work from a product perspective. It provides context for product decisions and helps anyone (AI agents, developers, stakeholders) understand the problem space and user needs.
 
 ---
 

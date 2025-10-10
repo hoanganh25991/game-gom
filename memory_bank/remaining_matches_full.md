@@ -13,14 +13,14 @@ Notes:
 High-priority (UX/runtime or highly visible text)
 1) src/splash.js
    - Snippet: `localStorage.getItem("gof.uiPrefs")`
-   - Suggested replacement: Keep `gof.uiPrefs` (no rename) OR migrate to `goe.uiPrefs` with migration helper.
+   - Suggested replacement: Keep `gof.uiPrefs` (no rename) OR migrate to `gom.uiPrefs` with migration helper.
    - Risk: medium (persistent prefs/migration required)
    - Action: no change by default; implement migration helper if renaming desired.
 
 2) src/i18n.js
    - Snippet: comment `i18n utility (logic only) for GoF RPG.` and `const STORAGE_KEY = "gof.lang";`
    - Suggested replacement:
-     - Doc: "GoE RPG — God of Earth"
+     - Doc: "GoM RPG — God of Earth"
      - Storage key: keep `gof.lang` OR plan migration
    - Risk: low for doc; medium for storage key.
    - Action: doc automated; storage key only after migration plan.
@@ -51,7 +51,7 @@ High-priority (UX/runtime or highly visible text)
      - `new THREE.MeshStandardMaterial({ color: COLOR.fire, emissive: 0x6a8f4e, ... })`
      - Comments: "World position of GoF's right hand (fire hand); fallback to chest height."
    - Suggested replacement:
-     - Update comments/docstrings: "GoE", "earth hand", "earth glow"
+     - Update comments/docstrings: "GoM", "earth hand", "earth glow"
      - Keep COLOR usage as-is (COLOR.fire now maps to earth hex)
    - Risk: low
    - Action: automated comment updates.
@@ -69,7 +69,7 @@ High-priority (UX/runtime or highly visible text)
      - `// Fire light glow on the character (updated for fire theme)`
      - `World position of GoF's right hand (fire hand); fallback to chest height.`
    - Suggested replacement:
-     - Comments -> "earth glow", "GoE's right hand (earth hand)"
+     - Comments -> "earth glow", "GoM's right hand (earth hand)"
    - Risk: low
    - Action: automated comment updates.
 
@@ -90,13 +90,13 @@ High-priority (UX/runtime or highly visible text)
 Medium-priority (docs, metadata, images, build)
 10) index.html
     - Snippets: `<title>GoF RPG</title>`, meta `og:title`, `og:description` containing "God of Fire"
-    - Suggested replacement: `<title>GoE RPG</title>` and updated description text
+    - Suggested replacement: `<title>GoM RPG</title>` and updated description text
     - Risk: low
     - Action: automated
 
 11) manifest.json
     - Snippet: `"name": "GoF RPG"`, `theme_color: "#ff6b35"`
-    - Suggested replacement: `"name": "GoE RPG"`, `theme_color: "#6b5a49"`
+    - Suggested replacement: `"name": "GoM RPG"`, `theme_color: "#6b5a49"`
     - Risk: low
     - Action: automated
 
@@ -109,14 +109,14 @@ Medium-priority (docs, metadata, images, build)
 
 13) README.md & memory_bank/*.md & memory_bank/docs/**
     - Snippets: "GoF RPG", "God of Fire", fire-themed narrative
-    - Suggested replacement: "GoE RPG", "God of Earth", update narratives
+    - Suggested replacement: "GoM RPG", "God of Earth", update narratives
     - Risk: low
     - Action: automated for documentation files.
 
 14) images/
     - Files matched: images/gof-*.png, images/gof-splash-*.png, images/gof-feature-graphics.png, etc.
     - Suggested replacement:
-      - Filenames: optional rename `gof-` -> `goe-` and update references
+      - Filenames: optional rename `gof-` -> `gom-` and update references
       - Content: image art will remain fire-themed until replaced by new assets (manual step)
     - Risk: medium (binary rename + reference updates)
     - Action: produce assets list for review; do NOT rename images automatically.
@@ -140,7 +140,7 @@ Vendor/build files (do not change)
 
 Concrete sample replacements I can safely apply now (non-runtime):
 - Doc/comment replacements:
-  - `GoF` -> `GoE`
+  - `GoF` -> `GoM`
   - `God of Fire` -> `God of Earth`
   - Comments: `fire` -> `earth/stone/moss` depending on context
   - `ember` -> `pebble/dust/sandstone` depending on context

@@ -73,7 +73,7 @@ export function initSplash() {
             // Inject start screen content dynamically to avoid affecting LCP
             startScreen.innerHTML = `
               <h2 id="startTitle" data-i18n="start.title">Hành trình của Thần Kim Loại</h2>
-              <p id="startStory" data-i18n="start.story">Thế giới chìm trong u ám. Những bóng đêm thức tỉnh; chỉ một vị thần có thể triệu hồi mạch đất. Hãy dẫn GoE — vị thần đất — qua rừng rêu, đền bậc và làng mỏ, uốn nắn đá và đất để khôi phục cân bằng.</p>
+              <p id="startStory" data-i18n="start.story">Thế giới chìm trong u ám. Những bóng đêm thức tỉnh; chỉ một vị thần có thể triệu hồi mạch đất. Hãy dẫn GoM — vị thần đất — qua rừng rêu, đền bậc và làng mỏ, uốn nắn đá và đất để khôi phục cân bằng.</p>
               <button id="btnStartGame" class="primary" data-i18n="btn.start">Bắt đầu</button>
             `;
             

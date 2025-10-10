@@ -8,19 +8,19 @@ Purpose
 
 Documentation & metadata (low risk — safe to replace)
 1) manifest.json (already updated) — previously:
-   - "name": "GoF RPG"  -> replaced with "GoE RPG"
+   - "name": "GoF RPG"  -> replaced with "GoM RPG"
    - "theme_color": "#ff6b35" -> replaced with "#6b5a49"
    (done)
 
 2) index.html
    - Snippet: <title>GoF RPG</title>, meta og:title "God of Fire RPG", og:description "God of Fire..."
-   - Suggest: "GoE RPG", "God of Earth RPG", adjust description to earth-themed copy.
+   - Suggest: "GoM RPG", "God of Earth RPG", adjust description to earth-themed copy.
    - Risk: Low (UI/SEO). Action: replace after your approval.
 
 3) README.md & memory_bank/*.md
    - Many occurrences already updated (projectbrief, productContext, systemPatterns).
    - Remaining: memory_bank/README.md references "GoF RPG" and repo path `game-gof`.
-   - Suggest: "GoE RPG", update repo path notes if you want (optional).
+   - Suggest: "GoM RPG", update repo path notes if you want (optional).
 
 Source files — high priority to review (low-to-medium risk)
 4) src/locales/* (EN/VI)
@@ -41,14 +41,14 @@ Source files — high priority to review (low-to-medium risk)
    - Action: OK to keep names; comments updated to earth wording.
 
 8) src/meshes.js (edited)
-   - Snippet: placeholder names like "GoF" in comments changed to "GoE"; materials still referencing COLOR.fire (mapped).
+   - Snippet: placeholder names like "GoF" in comments changed to "GoM"; materials still referencing COLOR.fire (mapped).
    - Action: OK.
 
 9) src/entities.js
    - Snippet: comments and docstrings references present:
      - "World position of GoF's right hand (fire hand)..."
      - "Fire light glow on the character..."
-   - Suggest: Update comment text to "GoE", "earth hand / earth glow" (non-breaking). I can update these now (safe).
+   - Suggest: Update comment text to "GoM", "earth hand / earth glow" (non-breaking). I can update these now (safe).
 
 10) src/uplift.js
     - Snippet: fx impactColor: 0xffa500 // Ember orange
@@ -69,7 +69,7 @@ Assets & build artifacts (high risk)
     - Filenames: gof-splash-..., gof-feature-graphics.png, etc.
     - Suggest:
       - Option A: leave filenames as-is (low risk) — only change visible text references in docs/UI.
-      - Option B: rename assets to goe-* and update references across repo (high risk — must update README, index.html, manifest, and any references).
+      - Option B: rename assets to gom-* and update references across repo (high risk — must update README, index.html, manifest, and any references).
     - I can produce an assets list for your approval (read-only).
 
 14) android-build & vendor

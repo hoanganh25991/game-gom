@@ -1,13 +1,13 @@
 {
   "id": "./",
   "start_url": "./",
-  "name": "GoE RPG",
-  "short_name": "GoE",
+  "name": "GoM RPG",
+  "short_name": "GoM",
   "display": "fullscreen",
   "orientation": "landscape",
   "background_color": "#6b5a49",
   "theme_color": "#6b5a49",
-  "description": "GoE RPG — top-down action with earth storms, skills, and quarry maps.",
+  "description": "GoM RPG — top-down action with earth storms, skills, and quarry maps.",
   "icons": [
     {
       "src": "icon.png",

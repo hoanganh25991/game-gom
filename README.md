@@ -1,4 +1,4 @@
-# GoE RPG (Three.js Top‑Down Action/RTS‑like Prototype)
+# GoM RPG (Three.js Top‑Down Action/RTS‑like Prototype)
 
 A lightweight prototype featuring DOTA‑style controls, earthen abilities, simple AI, HUD/minimap, portals/recall, and a village regen zone — implemented as modular ES modules with Three.js.
 
@@ -37,7 +37,7 @@ Then open:
 
 ## Gameplay Overview
 
-- Player (GoE) moves with RTS‑style orders and auto‑attacks when in range.
+- Player (GoM) moves with RTS‑style orders and auto‑attacks when in range.
 - Enemies aggro, chase, attack, or wander when idle.
 - Four skills with cooldowns and mana:
   - Q Root Chain (chains targets in range)

@@ -18,7 +18,7 @@ Choose one of the following actions for me to perform next:
 1) Produce a detailed per-file replacement plan (exact SEARCH/REPLACE lines) and save to memory_bank/replacement_apply_plan.md (read-only). No code changes applied.
 2) Apply automated replacements to documentation and metadata only (README, memory_bank docs, memory_bank/README, memory_bank/projectbrief already partially updated, android-build source JSONs where safe).
 3) Apply automated in-code comment & non-functional string replacements across src/* (update comments, docstrings, UI text values, splash text) — this will NOT rename functions or storage keys. (Risk: low)
-4) Insert a storage-key migration helper (adds idempotent code that copies existing gof.* localStorage keys to goe.* keys at startup, then marks migration complete).
+4) Insert a storage-key migration helper (adds idempotent code that copies existing gof.* localStorage keys to gom.* keys at startup, then marks migration complete).
 5) Produce an assets report for images/gof-* listing all references and recommended per-file rename actions (read-only).
 6) Run actions 1→5 in sequence (full continuation). This will write multiple files/edits; I will show each changed file after edits.
 

@@ -8,23 +8,23 @@ Summary
 High-priority replacements (suggested)
 1) memory_bank/projectbrief.md
    - Match (example): "**Name**: GoF RPG — God of Fire"
-   - Suggest: "GoE RPG — God of Earth" and "God of Earth" (everywhere)
+   - Suggest: "GoM RPG — God of Earth" and "God of Earth" (everywhere)
    - Risk: Low (documentation only)
    - Action: Safe to replace automatically.
 
 2) README.md, memory_bank/*, memory_bank/docs/*
    - Matches: "GoF RPG", "God of Fire", "Fire-themed hero", "Flame Chain"
-   - Suggest: Replace "GoF RPG" -> "GoE RPG", "God of Fire" -> "God of Earth", "Fire-themed" -> "Earth-themed", "Flame Chain" -> "Root Chain" (or keep "flame" ids if code depends on them — see note)
+   - Suggest: Replace "GoF RPG" -> "GoM RPG", "God of Fire" -> "God of Earth", "Fire-themed" -> "Earth-themed", "Flame Chain" -> "Root Chain" (or keep "flame" ids if code depends on them — see note)
    - Risk: Low (docs). Action: Safe to replace automatically.
 
 3) manifest.json, android-build/*, package/metadata
    - Matches: "GoF RPG", theme_color: "#ff6b35"
-   - Suggest: "GoE RPG", update theme_color to an earth hex (e.g., "#6b5a49" or #caa36b)
+   - Suggest: "GoM RPG", update theme_color to an earth hex (e.g., "#6b5a49" or #caa36b)
    - Risk: Medium (if publishing / assets depend on name). Action: Replace after confirming desired brand name and color.
 
 4) images/ (asset filenames like gof-*.png)
    - Matches: file names and image references in README/HTML
-   - Suggest: Optionally rename files to goe-* and update references, or keep filenames (low functional impact)
+   - Suggest: Optionally rename files to gom-* and update references, or keep filenames (low functional impact)
    - Risk: High if renamed without updating references; manual review recommended.
    - Action: Provide a list of filenames to rename; wait for confirmation.
 
@@ -49,7 +49,7 @@ High-priority replacements (suggested)
 
 8) src/splash.js (start screen copy)
    - Match: Vietnamese copy referencing "Hoả Thần" and GoF text
-   - Suggest: Replace with earth-themed story copy and change title "Hành trình của Hoả Thần" -> "Hành trình của Thần Kim Loại" and "GoF" -> "GoE" in data-i18n if locale entries updated.
+   - Suggest: Replace with earth-themed story copy and change title "Hành trình của Hoả Thần" -> "Hành trình của Thần Kim Loại" and "GoF" -> "GoM" in data-i18n if locale entries updated.
    - Risk: Low; Action: Update both inline text and i18n keys/values in src/locales.
 
 9) src/uplift.js
@@ -64,7 +64,7 @@ High-priority replacements (suggested)
 
 Non-destructive plan (recommended)
 Step 1 (safe) — Docs and UI text:
-- Replace occurrences in memory_bank, README.md, manifest.json (metadata text only), and locales (values only) to "GoE / God of Earth" and skill name updates.
+- Replace occurrences in memory_bank, README.md, manifest.json (metadata text only), and locales (values only) to "GoM / God of Earth" and skill name updates.
 Step 2 (safe) — Code comments & strings:
 - Replace comments and in-code user-facing strings (splash inline HTML, in-js strings shown in UI) to earth equivalents.
 Step 3 (cautious) — Storage keys & asset names:
