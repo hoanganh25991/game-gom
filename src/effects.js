@@ -42,7 +42,7 @@ export class EffectsManager {
     this.quality =
       (opts && opts.quality) ||
       (typeof localStorage !== "undefined"
-        ? (JSON.parse(localStorage.getItem("gof.renderPrefs") || "{}").quality || "high")
+        ? (JSON.parse(localStorage.getItem("gom.renderPrefs") || "{}").quality || "high")
         : "high");
 
     this.transient = new THREE.Group();

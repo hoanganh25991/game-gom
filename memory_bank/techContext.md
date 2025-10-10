@@ -53,7 +53,7 @@ Document the **technologies**, **frameworks**, **development setup**, and **tech
 ## Repository Structure
 
 ```
-game-gof/
+game-gom/
 ├── index.html              # Entry point, UI shell
 ├── manifest.json           # PWA manifest
 ├── serviceworker.js        # Service worker for offline support
@@ -228,7 +228,7 @@ game-gof/
 #### Option 1: Python (Recommended)
 ```bash
 # Navigate to project directory
-cd /path/to/game-gof
+cd /path/to/game-gom
 
 # Start Python HTTP server
 python3 -m http.server 8000
@@ -240,7 +240,7 @@ open http://localhost:8000
 #### Option 2: Node.js
 ```bash
 # Navigate to project directory
-cd /path/to/game-gof
+cd /path/to/game-gom
 
 # Install http-server globally (one-time)
 npm install -g http-server
@@ -255,7 +255,7 @@ open http://localhost:8000
 #### Option 3: npx (No Install)
 ```bash
 # Navigate to project directory
-cd /path/to/game-gof
+cd /path/to/game-gom
 
 # Start server with npx
 npx http-server -p 8000

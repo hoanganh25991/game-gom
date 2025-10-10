@@ -319,7 +319,7 @@ if (WORLD && WORLD.chunking && WORLD.chunking.enabled) {
       chunkSize: size,
       radius: Math.max(1, chunkCfg.radius || 2),
       seed: WORLD_SEED,
-      storagePrefix: chunkCfg.storagePrefix || "gof.chunk",
+      storagePrefix: chunkCfg.storagePrefix || "gom.chunk",
       densities: dens,
     });
     // Prevent static environment from duplicating streamed props

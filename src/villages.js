@@ -75,9 +75,9 @@ export function initVillages(scene, portals, opts = {}) {
   scene.add(dynamicRoads);
 
   // Persistence keys
-  const STORAGE_VILLAGES = "gof.dynamic.villages.v1";
-  const STORAGE_ROADS = "gof.dynamic.roads.v1";
-  const STORAGE_ROADS_GEOM = "gof.dynamic.roads_geom.v1";
+  const STORAGE_VILLAGES = "gom.dynamic.villages.v1";
+  const STORAGE_ROADS = "gom.dynamic.roads.v1";
+  const STORAGE_ROADS_GEOM = "gom.dynamic.roads_geom.v1";
 
   function saveVillagesToStorage() {
     try {

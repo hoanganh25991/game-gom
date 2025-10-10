@@ -20,7 +20,7 @@ export class MinimapUI {
 
     // Throttling based on quality
     try {
-      const prefs = JSON.parse(localStorage.getItem("gof.renderPrefs") || "{}");
+      const prefs = JSON.parse(localStorage.getItem("gom.renderPrefs") || "{}");
       this._quality = prefs && typeof prefs.quality === "string" ? prefs.quality : "high";
     } catch (_) {
       this._quality = "high";

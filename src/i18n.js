@@ -9,7 +9,7 @@
  *   are re-applied.
  */
 
-const STORAGE_KEY = "gof.lang";
+const STORAGE_KEY = "gom.lang";
 const DEFAULT_LANG = "vi";
 
 /**

@@ -415,7 +415,7 @@ Use this checklist to ensure memory bank stays healthy:
 ## 📞 Contact & Support
 
 **Project Owner**: Monk Journey Team  
-**Repository**: `/Users/anhle/work-station/game-gof`  
+**Repository**: `/Users/anhle/work-station/game-gom`  
 **Published**: Google Play Store (TWA)  
 **License**: Proprietary (see LICENSE file)
 

@@ -60,7 +60,7 @@ function initAudioControls(audioCtl) {
         }
         try {
           localStorage.setItem(
-            "gof.audioPrefs",
+            "gom.audioPrefs",
             JSON.stringify({ music: !!audioCtl.getMusicEnabled?.(), sfx: !!audioCtl.getSfxEnabled?.() })
           );
         } catch (_) {}
@@ -84,7 +84,7 @@ function initAudioControls(audioCtl) {
         } catch (_) {}
         try {
           localStorage.setItem(
-            "gof.audioPrefs",
+            "gom.audioPrefs",
             JSON.stringify({ music: !!audioCtl.getMusicEnabled?.(), sfx: !!audioCtl.getSfxEnabled?.() })
           );
         } catch (_) {}
@@ -122,9 +122,9 @@ function initQualitySelect(render, t) {
       showReloadConfirm(tt).then((ok) => {
         if (ok) {
           try {
-            const prev = JSON.parse(localStorage.getItem("gof.renderPrefs") || "{}");
+            const prev = JSON.parse(localStorage.getItem("gom.renderPrefs") || "{}");
             prev.quality = nextQ;
-            localStorage.setItem("gof.renderPrefs", JSON.stringify(prev));
+            localStorage.setItem("gom.renderPrefs", JSON.stringify(prev));
           } catch (_) {}
           try {
             window.location.reload();
@@ -149,7 +149,7 @@ function initZoomControl(render) {
   // ui=2 => zoom = 0.6 + ((2 - 1) / 9) * 1.0 = ~0.7111
   let z = 0.6 + (1 / 9) * 1.0;
   try {
-    const prefs = JSON.parse(localStorage.getItem("gof.renderPrefs") || "{}");
+    const prefs = JSON.parse(localStorage.getItem("gom.renderPrefs") || "{}");
     if (typeof prefs.zoom === "number") z = prefs.zoom;
   } catch (_) {}
   z = clampNum(z, 0.6, 1.6);
@@ -173,9 +173,9 @@ function initZoomControl(render) {
         render.cameraOffset?.copy?.(render.baseCameraOffset?.clone?.().multiplyScalar(zoom));
       } catch (_) {}
       try {
-        const prev = JSON.parse(localStorage.getItem("gof.renderPrefs") || "{}");
+        const prev = JSON.parse(localStorage.getItem("gom.renderPrefs") || "{}");
         prev.zoom = zoom;
-        localStorage.setItem("gof.renderPrefs", JSON.stringify(prev));
+        localStorage.setItem("gom.renderPrefs", JSON.stringify(prev));
       } catch (_) {}
     };
     // Apply only on commit (no live drag updates)
@@ -311,7 +311,7 @@ function initFullscreenControl() {
   // Load pref (default true)
   let pref;
   try {
-    pref = JSON.parse(localStorage.getItem("gof.uiPrefs") || "{}").fullscreen;
+    pref = JSON.parse(localStorage.getItem("gom.uiPrefs") || "{}").fullscreen;
   } catch (_) {}
   const defaultVal = typeof pref === "boolean" ? pref : true;
   try { el.checked = defaultVal; } catch (_) {}
@@ -336,9 +336,9 @@ function initFullscreenControl() {
         exitFullscreen();
       }
       try {
-        const prev = JSON.parse(localStorage.getItem("gof.uiPrefs") || "{}");
+        const prev = JSON.parse(localStorage.getItem("gom.uiPrefs") || "{}");
         prev.fullscreen = enabled;
-        localStorage.setItem("gof.uiPrefs", JSON.stringify(prev));
+        localStorage.setItem("gom.uiPrefs", JSON.stringify(prev));
       } catch (_) {}
     });
     el.dataset.bound = "1";

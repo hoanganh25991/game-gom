@@ -5,24 +5,24 @@ A lightweight prototype featuring DOTA‑style controls, earthen abilities, simp
 ## Overview
 
 **Game Play**
-![guide](./images/gof-game-play-iphone-14-pro-max-1.png)
+![guide](./images/gom-game-play-iphone-14-pro-max-1.png)
 
 **First Person**
-![guide](./images/gof-first-person-iphone-14-pro-max-4.png)
+![guide](./images/gom-first-person-iphone-14-pro-max-4.png)
 
 **Skills**
-![guide](./images/gof-skills-iphone-14-pro-max-2.png)
+![guide](./images/gom-skills-iphone-14-pro-max-2.png)
 
 **Guide**
-![guide](./images/gof-guides-iphone-14-pro-max.png)
+![guide](./images/gom-guides-iphone-14-pro-max.png)
 
 ### Demo
 
-[Demo Video](gof-demo.webm)
+[Demo Video](gom-demo.webm)
 
 ## Google Play
 
-https://play.google.com/store/apps/details?id=io.github.hoanganh25991.gofsignature
+https://play.google.com/store/apps/details?id=io.github.hoanganh25991.gomsignature
 
 ## Quick Start
 

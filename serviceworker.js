@@ -56,7 +56,7 @@ self.addEventListener("activate", (event) => {
       const keys = await caches.keys();
       await Promise.all(
         keys.map((key) => {
-          if (key !== CACHE_NAME && key.startsWith("gof-rpg-")) {
+          if (key !== CACHE_NAME && key.startsWith("gom-rpg-")) {
             return caches.delete(key);
           }
         })

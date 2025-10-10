@@ -114,7 +114,7 @@ export function initSplash() {
               // Respect UI preference for fullscreen (default true if unset)
               let allowFs = true;
               try {
-                const prefs = JSON.parse(localStorage.getItem("gof.uiPrefs") || "{}");
+                const prefs = JSON.parse(localStorage.getItem("gom.uiPrefs") || "{}");
                 if (typeof prefs.fullscreen === "boolean") allowFs = prefs.fullscreen;
               } catch (_) {}
 
