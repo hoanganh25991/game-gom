@@ -1,16 +1,51 @@
+import { STORAGE_KEYS } from "./constants.js";
+
 /**
- * i18n utility (logic only) for GoF RPG.
+ * i18n utility (logic only) for GoM RPG.
  *
  * Behavior:
  * - Loads locale JSON files dynamically from ./locales/{lang}.json (relative to this module).
- * - Caches loaded locales and persists selected language in localStorage ("lang").
+ * - Caches loaded locales and persists selected language in localStorage.
  * - t(key) is non-blocking: if the locale file is not yet loaded (or key missing), it immediately
  *   returns the key string so the UI can render quickly. After the JSON is loaded, translations
  *   are re-applied.
  */
 
-const STORAGE_KEY = "gom.lang";
-const DEFAULT_LANG = "vi";
+const FALLBACK_LANG = "en";
+const SUPPORTED_LANGS = new Set(["en", "vi"]);
+/** Non-English locale bundles we ship (English is the default fallback). */
+const LOCALIZED_LANGS = new Set(["vi"]);
+
+/**
+ * Pick language from device settings. Vietnamese when the device locale is vi*;
+ * otherwise English.
+ */
+export function detectDeviceLanguage() {
+  try {
+    if (typeof navigator === "undefined") return FALLBACK_LANG;
+    const candidates = navigator.languages?.length
+      ? navigator.languages
+      : [navigator.language];
+    for (const raw of candidates) {
+      if (!raw) continue;
+      const code = String(raw).split("-")[0].toLowerCase();
+      if (LOCALIZED_LANGS.has(code)) return code;
+    }
+  } catch (e) {
+    // ignore
+  }
+  return FALLBACK_LANG;
+}
+
+function resolveInitialLanguage() {
+  try {
+    const saved = typeof localStorage !== "undefined" ? localStorage.getItem(STORAGE_KEYS.lang) : null;
+    if (saved && SUPPORTED_LANGS.has(saved)) return saved;
+  } catch (e) {
+    // ignore
+  }
+  return detectDeviceLanguage();
+}
 
 /**
  * LOCALES cache structure:
@@ -21,14 +56,7 @@ const DEFAULT_LANG = "vi";
  */
 const LOCALES = {};
 
-let currentLang = (() => {
-  try {
-    const saved = typeof localStorage !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
-    return saved || DEFAULT_LANG;
-  } catch (e) {
-    return DEFAULT_LANG;
-  }
-})();
+let currentLang = resolveInitialLanguage();
 
 /**
  * Load a locale JSON file (./locales/{lang}.json) relative to this module.
@@ -55,7 +83,6 @@ export function loadLocale(lang) {
       return json;
     })
     .catch((err) => {
-      // Keep a record so we don't continuously retry on failure
       console.error("i18n: loadLocale error", err);
       LOCALES[lang] = { status: "error", data: null, promise: null };
       return null;
@@ -73,7 +100,6 @@ export function t(key) {
   const locale = LOCALES[currentLang] && LOCALES[currentLang].data;
   if (!locale || !key) return key;
 
-  // Support nested keys using dot notation, e.g. "hero.info.level"
   const parts = String(key).split(".");
   let val = locale;
   for (let i = 0; i < parts.length; i++) {
@@ -122,7 +148,6 @@ export function renderInstructions(container) {
       ul.appendChild(li);
     });
   } else {
-    // Render a single item containing the returned value (likely the key) so UI isn't empty.
     const li = document.createElement("div");
     li.textContent = items;
     ul.appendChild(li);
@@ -139,17 +164,15 @@ export function setLanguage(lang) {
   if (!lang) return;
   currentLang = lang;
   try {
-    localStorage.setItem(STORAGE_KEY, lang);
+    localStorage.setItem(STORAGE_KEYS.lang, lang);
   } catch (e) {
     // ignore
   }
 
-  // Apply immediate (will show keys if not loaded)
   applyTranslations(document);
   const instr = document.getElementById("settingsInstructions");
   if (instr) renderInstructions(instr);
 
-  // Load and re-apply when ready
   loadLocale(lang).then(() => {
     applyTranslations(document);
     if (instr) renderInstructions(instr);
@@ -157,19 +180,22 @@ export function setLanguage(lang) {
 }
 
 /**
- * Initialize i18n. Default language is Vietnamese.
+ * Initialize i18n. Uses saved preference, else device locale (vi → Vietnamese, else English).
  * Ensures localStorage has a value and starts loading the selected locale.
  */
 export function initI18n() {
   try {
-    const saved = typeof localStorage !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
-    if (saved) currentLang = saved;
-    else localStorage.setItem(STORAGE_KEY, currentLang);
+    const saved = typeof localStorage !== "undefined" ? localStorage.getItem(STORAGE_KEYS.lang) : null;
+    if (saved && SUPPORTED_LANGS.has(saved)) {
+      currentLang = saved;
+    } else {
+      currentLang = detectDeviceLanguage();
+      localStorage.setItem(STORAGE_KEYS.lang, currentLang);
+    }
   } catch (e) {
     // ignore
   }
 
-  // Expose helpers on window for convenience (used by splash/start flow)
   try {
     if (typeof window !== "undefined") {
       window.applyTranslations = applyTranslations;
@@ -177,12 +203,10 @@ export function initI18n() {
     }
   } catch (e) {}
 
-  // Apply keys immediately so the UI is populated
   applyTranslations(document);
   const instr = document.getElementById("settingsInstructions");
   if (instr) renderInstructions(instr);
 
-  // Load selected locale and re-apply once it's available
   loadLocale(currentLang).then(() => {
     applyTranslations(document);
     if (instr) renderInstructions(instr);
