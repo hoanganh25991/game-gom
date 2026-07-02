@@ -242,6 +242,50 @@ export function createGoTMesh() {
    return mesh;
  }
 
+/** Enemy root with high / low / dot LOD children. */
+export function createEnemyLODGroup(options = {}) {
+  const color = options.color !== undefined ? options.color : COLOR.enemyDark;
+  const group = new THREE.Group();
+  const high = createEnemyMesh(options);
+  const low = new THREE.Mesh(
+    new THREE.CapsuleGeometry(0.5, 1.2, 4, 8),
+    new THREE.MeshBasicMaterial({ color })
+  );
+  low.visible = false;
+  const dot = new THREE.Sprite(
+    new THREE.SpriteMaterial({ color, transparent: true, opacity: 0.85 })
+  );
+  dot.scale.set(1.4, 1.4, 1);
+  dot.position.y = 1.2;
+  dot.visible = false;
+  group.add(high, low, dot);
+  group.userData.lod = { high, low, dot, level: "high" };
+  return group;
+}
+
+/** Swap visible LOD child by squared camera distance. */
+export function updateEnemyLODLevel(mesh, distSq, bands, hpBar = null) {
+  const lod = mesh.userData?.lod;
+  if (!lod) return;
+  let level = "high";
+  if (distSq > bands.dotSq) level = "hidden";
+  else if (distSq > bands.lowSq) level = "dot";
+  else if (distSq > bands.highSq) level = "low";
+  if (lod.level === level) return;
+  lod.level = level;
+  lod.high.visible = level === "high";
+  lod.low.visible = level === "low";
+  lod.dot.visible = level === "dot";
+  if (level === "hidden") {
+    lod.high.visible = false;
+    lod.low.visible = false;
+    lod.dot.visible = false;
+  }
+  if (hpBar?.container) {
+    hpBar.container.visible = level === "high" || level === "low";
+  }
+}
+
 // Billboard HP bar parts to attach to enemy mesh
 export function createBillboardHPBar() {
   const container = new THREE.Group();

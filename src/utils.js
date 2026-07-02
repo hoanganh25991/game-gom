@@ -25,6 +25,13 @@ export function distance2D(a, b) {
   return Math.hypot(dx, dz);
 }
 
+/** Squared XZ distance — use for range/order comparisons (no sqrt). */
+export function distanceSq2D(a, b) {
+  const dx = a.x - b.x;
+  const dz = a.z - b.z;
+  return dx * dx + dz * dz;
+}
+
 export function dir2D(from, to) {
   const dx = to.x - from.x;
   const dz = to.z - from.z;

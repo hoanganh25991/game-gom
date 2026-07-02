@@ -14,6 +14,7 @@
 
 import * as THREE from "../vendor/three/build/three.module.js";
 import { distance2D, dir2D, now } from "./utils.js";
+import { getNearestEnemy } from "./entities.js";
 
 export function createInputService({
   renderer,
@@ -28,6 +29,7 @@ export function createInputService({
   DEBUG,
   setCenterMsg,
   clearCenterMsg,
+  enemyGrid = null,
 }) {
   // ---- Internal State ----
   const state = {
@@ -60,7 +62,7 @@ export function createInputService({
     if (!player.alive || player.frozen) return;
     try {
       const effRange = effectiveRange();
-      const nearest = getNearestEnemy(player.pos(), effRange, enemies);
+      const nearest = findNearestEnemy(player.pos(), effRange);
       if (nearest) {
         player.target = nearest;
         player.moveTarget = null;
@@ -77,17 +79,8 @@ export function createInputService({
     } catch (e) {}
   }
 
-  function getNearestEnemy(origin, maxDist, list) {
-    let best = null;
-    let bestD = Infinity;
-    for (const en of list) {
-      if (!en.alive) continue;
-      const d = distance2D(origin, en.pos());
-      if (d <= maxDist && d < bestD) {
-        best = en; bestD = d;
-      }
-    }
-    return best;
+  function findNearestEnemy(origin, maxDist, list) {
+    return getNearestEnemy(origin, maxDist, list || enemies, enemyGrid);
   }
 
   function cancelAim() { /* no-op: aiming removed */ }
@@ -141,7 +134,7 @@ export function createInputService({
         if (state.lastMouseGroundPoint && Number.isFinite(state.lastMouseGroundPoint.x)) {
           point = state.lastMouseGroundPoint.clone();
         } else {
-          const nearest = getNearestEnemy(player.pos(), 9999, enemies);
+          const nearest = findNearestEnemy(player.pos(), 9999);
           if (nearest) {
             point = nearest.pos().clone();
           } else {
@@ -314,7 +307,7 @@ export function createInputService({
           const g = raycast.raycastGround?.();
           if (g && !player.frozen) {
             const eff = effectiveRange();
-            const en = getNearestEnemy(g, eff, enemies);
+            const en = findNearestEnemy(g, eff);
             if (en && en.alive) {
               player.target = en;
               player.moveTarget = null;

@@ -144,8 +144,12 @@
 
   <!-- Top-right flex group: minimap above screen buttons -->
   <div id="topRightGroup">
-    <!-- Minimap -->
-    <canvas id="minimap" width="180" height="180"></canvas>
+    <div id="topRightRow">
+      <button type="button" id="fpsBadge" class="fps-btn" aria-label="FPS" tabindex="-1">
+        <span id="fpsValue">--</span>
+      </button>
+      <canvas id="minimap" width="180" height="180"></canvas>
+    </div>
     <!-- Screen buttons row (below minimap) -->
     <div id="screenGroup">
       <button id="btnInstructionGuide" class="icon-btn" title="Guide">✋</button>

@@ -587,7 +587,8 @@ export class EffectsManager {
   }
 
   // ----- Frame update -----
-  update(t, dt) {
+  update(t, dt, opts = {}) {
+    const minimal = opts.minimal === true;
     // Adaptive VFX throttling based on FPS to reduce draw calls on low-end devices
     let fps = 60;
     try { fps = (window.__perfMetrics && window.__perfMetrics.fps) ? window.__perfMetrics.fps : (1000 / Math.max(0.001, (window.__perfMetrics && window.__perfMetrics.avgMs) || 16.7)); } catch (_) {}
@@ -639,24 +640,24 @@ export class EffectsManager {
       }
 
       // Vertical motion for popups
-      if (e.velY && e.obj && e.obj.position) {
+      if (!minimal && e.velY && e.obj && e.obj.position) {
         e.obj.position.y += e.velY * dt;
       }
 
       // Optional animated scaling (for pings)
-      if (e.scaleRate && e.obj && e.obj.scale) {
+      if (!minimal && e.scaleRate && e.obj && e.obj.scale) {
         const s = 1 + (e.scaleRate || 0) * dt * FX.scaleRateScale;
         e.obj.scale.multiplyScalar(s);
       }
 
       // Follow an entity (for bubbles/rings that should stick to a unit)
-      if (e.follow && e.obj && typeof e.follow.pos === "function") {
+      if (!minimal && e.follow && e.obj && typeof e.follow.pos === "function") {
         const p = e.follow.pos();
         try { e.obj.position.set(p.x, (e.followYOffset ?? e.obj.position.y), p.z); } catch (_) {}
       }
 
       // Pulsing scale (breathing bubble, buff auras)
-      if (e.pulseAmp && e.obj && e.obj.scale) {
+      if (!minimal && e.pulseAmp && e.obj && e.obj.scale) {
         const base = e.baseScale || 1;
         const rate = (e.pulseRate || 3) * FX.pulseRateScale;
         const amp = e.pulseAmp || 0.05;
@@ -665,12 +666,12 @@ export class EffectsManager {
       }
 
       // Spin rotation (e.g., storm cloud disc)
-      if (e.spinRate && e.obj && e.obj.rotation) {
+      if (!minimal && e.spinRate && e.obj && e.obj.rotation) {
         try { e.obj.rotation.y += (e.spinRate || 0) * dt * FX.spinRateScale; } catch (_) {}
       }
 
       // Orbiting orbs around a followed entity
-      if (e.orbitChildren && e.obj) {
+      if (!minimal && e.orbitChildren && e.obj) {
         const cnt = e.orbitChildren.length || 0;
         e.orbitBase = (e.orbitBase || 0) + (e.orbitRate || 4) * dt * FX.orbitRateScale;
         const base = e.orbitBase || 0;

@@ -139,6 +139,47 @@
 @media (max-width: 720px) {
   #hud { width: 90vw; left: 6px; top: 8px; padding: 8px; }
   #minimap { right: 8px; top: 8px; width: 160px; height: 160px; }
+  #topRightRow { gap: 6px; }
+  .fps-btn { width: 48px; height: 48px; }
+  .fps-btn span { font-size: 15px; }
+}
+
+/* Minimap row: FPS button left of minimap (same row, vertically centered) */
+#topRightRow{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Skill-wheel button look — display-only, sits left of minimap */
+.fps-btn{
+  position: static;
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--border-brown);
+  background: linear-gradient(180deg, rgba(44,38,34,0.92), rgba(38,34,30,0.9));
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  user-select: none;
+  padding: 0;
+  margin: 0;
+  cursor: default;
+}
+
+.fps-btn span{
+  font-size: 17px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--theme-sand);
+  text-shadow: 0 0 8px rgba(230, 180, 120, 0.45), 0 1px 0 rgba(0, 0, 0, 0.5);
+  line-height: 1;
+  pointer-events: none;
 }
 
 /* Top-right flex stack: minimap above screenGroup */
@@ -160,6 +201,12 @@
   position: static;
   right: auto;
   top: auto;
+  flex: 0 0 auto;
+  order: 1;
+}
+
+#topRightGroup .fps-btn{
+  order: 0;
 }
 
 @media (max-width: 720px){

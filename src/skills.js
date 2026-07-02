@@ -1,6 +1,6 @@
 import * as THREE from "../vendor/three/build/three.module.js";
 import { WORLD, SKILLS, COLOR, VILLAGE_POS, REST_RADIUS, SCALING, FX } from "./constants.js";
-import { distance2D, now } from "./utils.js";
+import { distance2D, distanceSq2D, now } from "./utils.js";
 import { handWorldPos } from "./entities.js";
 import { createGroundRing, MetalEffects } from "./effects.js";
 import { audio } from "./audio.js";
@@ -45,6 +45,7 @@ export class SkillsSystem {
     this.effects = effects;
     this.cdUI = cdUI;
     this.villages = villages;
+    this.spatialGrid = null;
 
     this.cooldowns = { Q: 0, W: 0, E: 0, R: 0, Basic: 0 };
     this.cdState = { Q: 0, W: 0, E: 0, R: 0, Basic: 0 }; // for ready flash timing
@@ -56,6 +57,19 @@ export class SkillsSystem {
     this.clones = [];
     this.totems = [];
     this._pendingShake = 0;
+  }
+
+  /** Query alive enemies within radius (uses spatial grid when available). */
+  forEachEnemyInRadius(center, radius, fn) {
+    const r2 = radius * radius;
+    if (this.spatialGrid) {
+      this.spatialGrid.forEachInRadius(center, r2, fn);
+      return;
+    }
+    for (const e of this.enemies) {
+      if (!e.alive) continue;
+      if (distanceSq2D(center, e.pos()) <= r2) fn(e);
+    }
   }
 
   // ----- Damage scaling helpers -----

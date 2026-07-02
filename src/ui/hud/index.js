@@ -1,5 +1,6 @@
 import { PlayerBarsUI } from "./player_bars.js";
 import { MinimapUI } from "./minimap.js";
+import { FpsBadgeUI } from "./fps_badge.js";
 
 /**
  * UIManager (orchestrator)
@@ -12,6 +13,7 @@ export class UIManager {
     // Subsystems
     this.bars = new PlayerBarsUI();
     this.minimapUI = new MinimapUI();
+    this.fpsBadge = new FpsBadgeUI();
 
     // Cooldown UI containers (passed to SkillsSystem)
     this.cdUI = {
@@ -43,6 +45,10 @@ export class UIManager {
 
   updateMinimap(player, enemies, portals, villages) {
     this.minimapUI?.update?.(player, enemies, portals, villages);
+  }
+
+  updateFpsBadge(fps) {
+    this.fpsBadge?.update?.(fps);
   }
 
   // Backward-compat entry for external level-up events

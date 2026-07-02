@@ -5,15 +5,15 @@
 import * as THREE from "../vendor/three/build/three.module.js";
 import { DEBUG } from "./config.js";
 import { COLOR, WORLD, SKILLS, VILLAGE_POS, REST_RADIUS, SCALING, storageKey } from "./constants.js";
-import { initWorld, updateCamera, updateGridFollow, updateEnvironmentFollow, addResizeHandler, getTargetPixelRatio } from "./world.js";
+import { initWorld, updateCamera, updateGridFollow, updateEnvironmentFollow, addResizeHandler, getTargetPixelRatio, applySceneOptimizations, attachWebGLContextHandlers } from "./world.js";
 import { UIManager } from "./ui/hud/index.js";
 import { Player, Enemy, getNearestEnemy, handWorldPos } from "./entities.js";
 import { EffectsManager, createGroundRing } from "./effects.js";
 import { SkillsSystem } from "./skills.js";
 import { createRaycast } from "./raycast.js";
-import { createHouse, createHeroOverheadBars } from "./meshes.js";
+import { createHouse, createHeroOverheadBars, updateEnemyLODLevel } from "./meshes.js";
 import { initEnvironment } from "./environment.js";
-import { distance2D, dir2D, now, clamp01 } from "./utils.js";
+import { distance2D, distanceSq2D, dir2D, now, clamp01 } from "./utils.js";
 import { initPortals } from "./portals.js";
 import { initI18n, setLanguage, getLanguage, t } from "./i18n.js";
 import { initSplash } from "./splash.js";
@@ -34,6 +34,7 @@ import { setupDesktopControls } from "./ui/deskop-controls.js"
 import * as payments from './payments.js';
 import { getSkillUpgradeManager } from "./skill_upgrades.js";
 import { ChunkingManager, getOrInitWorldSeed } from "./chunking_manager.js";
+import { EnemySpatialGrid } from "./spatial_hash.js";
 
 
 // ------------------------------------------------------------
@@ -75,6 +76,13 @@ const MOBILE_OPTIMIZATIONS = {
 const { renderer, scene, camera, ground, cameraOffset, cameraShake } = initWorld();
 const _baseCameraOffset = cameraOffset.clone();
 const ui = new UIManager();
+const enemyGrid = new EnemySpatialGrid(40);
+let __contextLost = false;
+
+attachWebGLContextHandlers(renderer, {
+  onLost: () => { __contextLost = true; },
+  onRestored: () => { __contextLost = false; },
+});
 
 // Mobile: Aggressive GPU/CPU optimizations
 if (isMobile) {
@@ -131,7 +139,7 @@ const WORLD_SEED = getOrInitWorldSeed();
 const __perf = {
   prevMs: performance.now(),
   hist: [],
-  fps: 0,
+  fps: 60,
   fpsLow1: 0,
   ms: 0,
   avgMs: 0,
@@ -168,8 +176,9 @@ function shouldSpawnVfx(kind, pos) {
     if (pos && camera && camera.position) {
       const dx = pos.x - camera.position.x;
       const dz = pos.z - camera.position.z;
-      const d = Math.hypot(dx, dz);
-      if (d > (window.__vfxDistanceCull || 140)) return false;
+      const d2 = dx * dx + dz * dz;
+      const cull = window.__vfxDistanceCull || 140;
+      if (d2 > cull * cull) return false;
     }
     // Allow for 'medium' quality but still disallow some heavy kinds
     if (q === "medium") {
@@ -184,6 +193,7 @@ function shouldSpawnVfx(kind, pos) {
 // Throttle values for UI updates (ms) - mobile uses slower updates
 const HUD_UPDATE_MS = isMobile ? MOBILE_OPTIMIZATIONS.hudUpdateMs : 150;
 const MINIMAP_UPDATE_MS = isMobile ? MOBILE_OPTIMIZATIONS.minimapUpdateMs : 150;
+const FPS_BADGE_UPDATE_MS = 100;
 try {
   // expose for runtime tuning/debug if needed
   window.__HUD_UPDATE_MS = HUD_UPDATE_MS;
@@ -194,6 +204,7 @@ try {
 // last-update timestamps (initialized lazily in the loop)
 if (!window.__lastHudT) window.__lastHudT = 0;
 if (!window.__lastMinimapT) window.__lastMinimapT = 0;
+if (!window.__lastFpsBadgeT) window.__lastFpsBadgeT = 0;
 function __computePerf(nowMs) {
   const dtMs = Math.max(0.1, Math.min(1000, nowMs - (__perf.prevMs || nowMs)));
   __perf.prevMs = nowMs;
@@ -1312,6 +1323,33 @@ fenceGroup.add(fenceRing);
 
 scene.add(fenceGroup);
 
+// Deferred mesh disposal (max 3/frame to avoid hitches)
+const __disposalQueue = [];
+const __MAX_DISPOSE_PER_FRAME = 3;
+function queueMeshDispose(root) {
+  if (root) __disposalQueue.push(root);
+}
+function processDisposalQueue() {
+  for (let i = 0; i < __MAX_DISPOSE_PER_FRAME && __disposalQueue.length; i++) {
+    const obj = __disposalQueue.shift();
+    try {
+      obj.traverse?.((o) => {
+        if (o.geometry && !o.userData?.sharedGeo) o.geometry.dispose?.();
+        if (o.material && !o.userData?.sharedMat) {
+          const mats = Array.isArray(o.material) ? o.material : [o.material];
+          mats.forEach((m) => m?.dispose?.());
+        }
+      });
+      scene.remove(obj);
+    } catch (_) {}
+  }
+}
+
+const __PROFILE = (() => {
+  try { return new URLSearchParams(location.search).get("profile") === "1"; } catch (_) { return false; }
+})();
+if (__PROFILE) console.info("[perf] Frame profiling enabled (?profile=1)");
+
 // Portals/Recall
 const portals = initPortals(scene);
 // Init Mark cooldown UI after portals are created
@@ -1348,11 +1386,16 @@ const villages = createVillagesSystem(scene, portals);
 // Skills system (cooldowns, abilities, storms) and UI
 // ------------------------------------------------------------
 const skills = new SkillsSystem(player, enemies, effects, ui.getCooldownElements(), villages);
+skills.spatialGrid = enemyGrid;
 try { window.__skillsRef = skills; } catch (_) {}
 try { initHeroPreview(skills, { heroScreen }); } catch (_) {}
 
+function queryNearestEnemy(origin, maxDist) {
+  return getNearestEnemy(origin, maxDist, enemies, enemyGrid);
+}
+
 // Touch controls (joystick + skill wheel)
-const touch = initTouchControls({ player, skills, effects, aimPreview, attackPreview, enemies, getNearestEnemy, WORLD, SKILLS });
+const touch = initTouchControls({ player, skills, effects, aimPreview, attackPreview, enemies, getNearestEnemy: queryNearestEnemy, WORLD, SKILLS });
 
 // ------------------------------------------------------------
 // Raycasting
@@ -1396,6 +1439,7 @@ const inputService = createInputService({
   attackPreview,
   setCenterMsg,
   clearCenterMsg,
+  enemyGrid,
 });
 inputService.attachCaptureListeners();
 if (typeof touch !== "undefined" && touch) inputService.setTouchAdapter(touch);
@@ -1417,7 +1461,7 @@ function attemptAutoBasic() {
   if (!player.alive || player.frozen) return;
   try {
     const effRange = WORLD.attackRange * (WORLD.attackRangeMult || 1);
-    const nearest = getNearestEnemy(player.pos(), effRange, enemies);
+    const nearest = queryNearestEnemy(player.pos(), effRange);
     if (!nearest) return;
     player.target = nearest;
     player.moveTarget = null;
@@ -1512,7 +1556,7 @@ window.addEventListener("keydown", (e) => {
 
     keyHoldA = true; // enable autofire while held
     // Auto-select nearest enemy and attempt basic attack.
-    const nearest = getNearestEnemy(player.pos(), WORLD.attackRange * (WORLD.attackRangeMult || 1), enemies);
+    const nearest = queryNearestEnemy(player.pos(), WORLD.attackRange * (WORLD.attackRangeMult || 1));
     if (nearest) {
       // select and perform basic attack immediately
       player.target = nearest;
@@ -1635,8 +1679,23 @@ if (isMobile) {
   console.info(`[Mobile] AI stride: ${__aiStride}, Billboard stride: ${__bbStride}, Cull distance: ${MOBILE_OPTIMIZATIONS.cullDistance}m`);
 }
 
+let __gridRebuildFrame = 0;
+let __lodFrame = 0;
+const __vfxCullBase = isMobile ? MOBILE_OPTIMIZATIONS.vfxDistanceCull : 140;
+
+function getEnemyLODBands() {
+  const fps = __perf.fps || 60;
+  const scale = fps < 25 ? 0.8 : 1;
+  const h = 40 * scale;
+  const l = 80 * scale;
+  const d = 120 * scale;
+  return { highSq: h * h, lowSq: l * l, dotSq: d * d };
+}
+
 function animate() {
   requestAnimationFrame(animate);
+  if (__contextLost) return;
+  if (__PROFILE) performance.mark("frame-start");
   const t = now();
   const dt = Math.min(0.05, t - lastT);
   lastT = t;
@@ -1845,8 +1904,8 @@ function animate() {
   }
 
   skills.update(t, dt, cameraShake);
-  effects.update(t, dt);
-  if (env && typeof env.update === "function") env.update(t, dt);
+  effects.update(t, dt, { minimal: __overBudget() });
+  if (!__overBudget() && env && typeof env.update === "function") env.update(t, dt);
 
   // Stream world features: ensure far village(s) exist as player travels
   // Throttle world streaming to avoid per-frame overhead and hitching
@@ -1890,6 +1949,18 @@ function animate() {
   }
 
   renderer.render(scene, camera);
+  processDisposalQueue();
+
+  if (__PROFILE) {
+    try {
+      performance.mark("frame-end");
+      performance.measure("animate-frame", "frame-start", "frame-end");
+      const entries = performance.getEntriesByName("animate-frame");
+      const last = entries[entries.length - 1];
+      if (last && last.duration > 14) console.warn(`[profile] slow frame ${last.duration.toFixed(1)}ms`);
+      if (entries.length > 120) performance.clearMeasures("animate-frame");
+    } catch (_) {}
+  }
 
   try {
     if (!window.__gameRenderReadyDispatched) {
@@ -1907,6 +1978,13 @@ function animate() {
   // Update perf metrics (throttled)
   try {
     __computePerf(performance.now());
+    try {
+      const fpsNowMs = performance.now();
+      if ((fpsNowMs - (window.__lastFpsBadgeT || 0)) >= FPS_BADGE_UPDATE_MS) {
+        window.__lastFpsBadgeT = fpsNowMs;
+        ui.updateFpsBadge(__perf.fps);
+      }
+    } catch (_) {}
     // Throttle heavy renderer.info snapshotting / perf exposure to reduce cost.
     // Tunable at runtime via window.__PERF_INFO_THROTTLE_MS (default 1000ms).
     const PERF_INFO_THROTTLE_MS = window.__PERF_INFO_THROTTLE_MS || 1000;
@@ -1933,6 +2011,9 @@ function animate() {
       }
       __adaptNextT = t + 1.5;
     }
+    const baseCull = __vfxCullBase;
+    const fpsMul = clamp01((__perf.fps || 60) / 30);
+    window.__vfxDistanceCull = Math.max(baseCull * 0.5, Math.min(baseCull * 1.2, baseCull * fpsMul));
   } catch (_) {}
 }
 
@@ -2033,7 +2114,7 @@ function updatePlayer(dt) {
   // Automatic target acquisition was removed so the player fully controls targeting and attacking.
   /*
   if (!player.moveTarget && (!player.target || !player.target.alive) && (!player.holdUntil || now() >= player.holdUntil)) {
-    const nearest = getNearestEnemy(player.pos(), WORLD.attackRange + 0.5, enemies);
+    const nearest = queryNearestEnemy(player.pos(), WORLD.attackRange + 0.5);
     if (nearest) player.target = nearest;
   }
   */
@@ -2122,6 +2203,14 @@ function updatePlayer(dt) {
 
 function updateEnemies(dt) {
   __aiOffset = (__aiOffset + 1) % __aiStride;
+  __lodFrame++;
+  if ((__gridRebuildFrame++ % 3) === 0) {
+    try { enemyGrid.rebuild(enemies); } catch (_) {}
+  }
+  const lodBands = getEnemyLODBands();
+  const camPos = camera.position;
+  const playerPos = player.pos();
+  const cullDistSq = (MOBILE_OPTIMIZATIONS.cullDistance || 100) ** 2;
   
   // Mobile: Periodic culling check to freeze distant enemies
   if (isMobile && MOBILE_OPTIMIZATIONS.cullDistance) {
@@ -2129,15 +2218,11 @@ function updateEnemies(dt) {
     if (t - __lastCullCheckT > __CULL_CHECK_INTERVAL) {
       __lastCullCheckT = t;
       __frozenEnemies.clear();
-      const cullDist = MOBILE_OPTIMIZATIONS.cullDistance;
-      const playerPos = player.pos();
       
       enemies.forEach((en) => {
         if (!en.alive) return;
-        const dist = distance2D(en.pos(), playerPos);
-        if (dist > cullDist) {
+        if (distanceSq2D(en.pos(), playerPos) > cullDistSq) {
           __frozenEnemies.add(en);
-          // Stop their movement target to save cycles
           en.moveTarget = null;
         }
       });
@@ -2145,6 +2230,9 @@ function updateEnemies(dt) {
   }
   
   enemies.forEach((en, __idx) => {
+    if (en.alive && (__idx + __lodFrame) % 4 === 0) {
+      try { updateEnemyLODLevel(en.mesh, distanceSq2D(en.pos(), camPos), lodBands, en.hpBar); } catch (_) {}
+    }
     // Skip AI updates for frozen enemies entirely
     if (isMobile && __frozenEnemies.has(en)) {
       // Still update HP bar position if visible, but skip AI
@@ -2399,8 +2487,9 @@ function updateDeathRespawn() {
 }
 
 // ------------------------------------------------------------
-// Window resize
+// Window resize + scene GPU/CPU optimizations
 // ------------------------------------------------------------
+try { applySceneOptimizations(scene, renderQuality); } catch (_) {}
 addResizeHandler(renderer, camera);
 
 // ------------------------------------------------------------

@@ -17,7 +17,7 @@ export function getTargetPixelRatio() {
     return 1;
   }
   if (quality === "medium") {
-    return 1.0;
+    return Math.min(dpr, 1.25);
   }
   if (quality === "high") {
     // Cap to 2x to avoid excessive GPU cost on ultra-high DPI
@@ -94,32 +94,31 @@ export function initWorld() {
   return { renderer, scene, camera, ground, cameraOffset, cameraShake };
 }
 
+const _camLookAhead = new THREE.Vector3();
+const _camBase = new THREE.Vector3();
+const _camShake = new THREE.Vector3();
+const _camTarget = new THREE.Vector3();
+
 /**
  * Smooth follow camera with slight look-ahead and optional shake.
- * lastMoveDir: THREE.Vector3
- * cameraOffset: THREE.Vector3
- * cameraShake: { mag: number, until: number }
  */
 export function updateCamera(camera, player, lastMoveDir, dt, cameraOffset, cameraShake) {
-  // look-ahead based on last movement (reduced to avoid speed illusion)
-  const lookAhead = lastMoveDir.clone().multiplyScalar(2);
-  const base = player.pos().clone().add(cameraOffset).add(new THREE.Vector3(lookAhead.x, 0, lookAhead.z));
+  _camLookAhead.copy(lastMoveDir).multiplyScalar(2);
+  _camBase.copy(player.pos()).add(cameraOffset).add(_camLookAhead);
+  _camTarget.copy(_camBase);
 
-  // camera shake
-  let targetPos = base;
   const nowT = performance.now() / 1000;
   if (nowT < (cameraShake.until || 0)) {
     const s = cameraShake.mag || 0;
-    targetPos = base.clone().add(
-      new THREE.Vector3(
-        (Math.random() - 0.5) * s,
-        (Math.random() - 0.5) * s * 0.5,
-        (Math.random() - 0.5) * s
-      )
+    _camShake.set(
+      (Math.random() - 0.5) * s,
+      (Math.random() - 0.5) * s * 0.5,
+      (Math.random() - 0.5) * s
     );
+    _camTarget.add(_camShake);
   }
 
-  camera.position.lerp(targetPos, 1 - Math.pow(0.001, dt)); // smooth follow
+  camera.position.lerp(_camTarget, 1 - Math.pow(0.001, dt));
   camera.lookAt(player.pos().x, 1, player.pos().z);
 }
 
@@ -162,4 +161,34 @@ export function addResizeHandler(renderer, camera) {
   }
   window.addEventListener("resize", onResize);
   return () => window.removeEventListener("resize", onResize);
+}
+
+/** One-time scene pass: frustum culling + material precision by quality tier. */
+export function applySceneOptimizations(scene, quality = "high") {
+  if (!scene) return;
+  const precision = quality === "low" ? "lowp" : (quality === "medium" ? "mediump" : "highp");
+  scene.traverse((o) => {
+    if (!o.isMesh) return;
+    o.frustumCulled = true;
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    for (const m of mats) {
+      if (m && quality !== "high" && m.precision !== undefined) {
+        m.precision = precision;
+      }
+    }
+  });
+}
+
+/** Pause/resume render loop on WebGL context loss/restore. */
+export function attachWebGLContextHandlers(renderer, { onLost, onRestored } = {}) {
+  const canvas = renderer?.domElement;
+  if (!canvas) return;
+  canvas.addEventListener("webglcontextlost", (e) => {
+    try { e.preventDefault(); } catch (_) {}
+    onLost?.();
+  });
+  canvas.addEventListener("webglcontextrestored", () => {
+    try { renderer.setPixelRatio(getTargetPixelRatio()); } catch (_) {}
+    onRestored?.();
+  });
 }

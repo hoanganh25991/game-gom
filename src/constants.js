@@ -97,6 +97,8 @@ export const WORLD = {
   },
 };
 
+WORLD.enemyStreamDespawnDistSq = ((WORLD.enemySpawnRadius || 220) * 1.6) ** 2;
+
 export const STATS_BASE = {
   // Hero as a "god" baseline: much higher HP/MP and regen so the player can clear many enemies
   hp: 800,

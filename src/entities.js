@@ -1,7 +1,7 @@
 import * as THREE from "../vendor/three/build/three.module.js";
 import { COLOR, WORLD, STATS_BASE, SCALING, STORAGE_KEYS } from "./constants.js";
-import { createGoTMesh, createEnemyMesh, createBillboardHPBar } from "./meshes.js";
-import { distance2D, now } from "./utils.js";
+import { createGoTMesh, createEnemyLODGroup, createBillboardHPBar } from "./meshes.js";
+import { distance2D, distanceSq2D, now } from "./utils.js";
 import { getSkillUpgradeManager } from "./skill_upgrades.js";
 
 export class Entity {
@@ -290,7 +290,7 @@ export class Enemy extends Entity {
       boss: 0xffee88,
     };
 
-    const mesh = createEnemyMesh({ color: TIER_COLOR[tier], eyeEmissive: TIER_EYE[tier] });
+    const mesh = createEnemyLODGroup({ color: TIER_COLOR[tier], eyeEmissive: TIER_EYE[tier] });
     super(mesh, 1.1);
     this.team = "enemy";
     this.tier = tier;
@@ -432,14 +432,18 @@ function randBetween(min, max) {
  * @param {Enemy[]} enemies
  * @returns {Enemy|null}
  */
-export function getNearestEnemy(origin, maxDist, enemies) {
+export function getNearestEnemy(origin, maxDist, enemies, grid = null) {
+  const maxSq = maxDist * maxDist;
+  if (grid && typeof grid.getNearest === "function") {
+    return grid.getNearest(origin, maxSq);
+  }
   let nearest = null;
-  let best = Infinity;
+  let best = maxSq;
   for (const en of enemies) {
     if (!en.alive) continue;
-    const d = distance2D(origin, en.pos());
-    if (d <= maxDist && d < best) {
-      best = d;
+    const d2 = distanceSq2D(origin, en.pos());
+    if (d2 <= maxSq && d2 < best) {
+      best = d2;
       nearest = en;
     }
   }
